@@ -7,7 +7,7 @@ type Renderer = (props: {
   onChange: (val: unknown) => void;
 }) => JSX.Element;
 
-export const rendererRegistry: Record<string, Renderer> = {
+export const rendererRegistry: Record<string, Renderer> = { 
   input: ({ field, value, onChange }) => (
     <input
       aria-label={field.label}

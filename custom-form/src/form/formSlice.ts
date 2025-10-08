@@ -1,7 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { AnyField, FormSchema, FormValues } from "../models/types";
-import { nanoid } from "nanoid";
-
+const nanoid = () => Math.random().toString(36).substring(2, 9);
 const initialState: { schema: FormSchema; values: FormValues } = {
   schema: {
     title: "CustomForm",
