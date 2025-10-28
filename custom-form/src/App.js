@@ -1,27 +1,35 @@
 import { useSelector, useDispatch } from "react-redux";
 import "./App.css";
 import Main from "./Main.js";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { listItems } from "./services/api.js";
 import { setItems } from "./storage/store.js";
 const API = "http://localhost:5000/api/";
 
 function App() {
   const dispatch = useDispatch();
+  const hasFetched = useRef(false);
+
   useEffect(() => {
-    fetch(API + "items")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Fetched items from server:", data);
-        const itemsToSet = data?.items ?? (Array.isArray(data) ? data : []);
+    if (hasFetched.current) return;
+    hasFetched.current = true;
+    console.log(hasFetched);
+    (async () => {
+      try {
+        const data = await listItems();
+        console.log("Data from server (async):", data);
+        const itemsToSet = data?.items || [];
         dispatch(setItems(itemsToSet));
-        console.log("Dispatched items to Redux:", itemsToSet);
-      })
-      .catch((err) => {
-        console.error("Error fetching items:", err);
-      });
+        console.log("Fetched items from server (async):", itemsToSet);
+      } catch (err) {
+        console.error("Error fetching items (async):", err);
+      }
+    })();
+    return () => {
+      hasFetched.current = false;
+    };
   }, []);
   const items = useSelector((state) => state.app.items);
-  //const dispatch = useDispatch();
   console.log("Items from Redux Store:", items);
   return (
     <div className="App">

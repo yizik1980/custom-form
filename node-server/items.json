@@ -1,0 +1,46 @@
+{
+    "title": "Hello from Redux",
+    "items": [
+        {
+            "id": 1,
+            "type": "text",
+            "value": "noteable earea",
+            "label": "Text Input"
+        },
+        {
+            "id": 2,
+            "type": "password",
+            "value": "password",
+            "label": "Password Input"
+        },
+        {
+            "id": 3,
+            "type": "checkbox",
+            "value": "checkbox"
+        },
+        {
+            "id": 4,
+            "type": "radio",
+            "value": "radio",
+            "label": "Radio Button"
+        },
+        {
+            "id": 5,
+            "type": "number",
+            "value": "number",
+            "label": "Number Input"
+        },
+        {
+            "id": 6,
+            "type": "date",
+            "value": "date",
+            "label": "Date Input"
+        },
+        {
+            "id": 14,
+            "type": "textarea",
+            "value": "textarea",
+            "label": "Textarea Input"
+        }
+    ]
+}

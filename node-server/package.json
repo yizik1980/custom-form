@@ -1,0 +1,20 @@
+{
+  "name": "node-express",
+  "version": "2.2.20",
+  "description": "simple json readed",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "cross-env PORT=4500 node server.js --watch"
+  },
+  "type": "module",
+  "author": "yizik",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0"
+  }
+}
