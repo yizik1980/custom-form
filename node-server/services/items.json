@@ -1,11 +1,6 @@
 {
   "items": [
     {
-      "id": "58c3ad36-c803-4674-9d19-7f7e8f382324",
-      "value": "כל דבר יתקבל",
-      "type": "input"
-    },
-    {
       "id": "6decd09b-6485-4328-9df7-4831fa010724",
       "value": "מה שבא ברוך הבא",
       "type": "text"
@@ -14,6 +9,46 @@
       "id": "b04313e9-a913-4ad4-92e7-20bd48397199",
       "value": "ניסיון חדש",
       "type": "text"
+    },
+    {
+      "id": "cdbff3aa-e976-4710-9c43-2b137289cf7a",
+      "value": "גדליה",
+      "type": "text"
+    },
+    {
+      "id": "2d8cf5a0-1f8a-4c95-896a-1e3b0982cd99",
+      "value": "22",
+      "type": "number"
+    },
+    {
+      "id": "f54dc4fd-4631-4230-8c0d-6031da906425",
+      "value": "01.22.2024",
+      "type": "date"
+    },
+    {
+      "id": "ab61b3f9-4062-447e-8756-e93840dc5ed0",
+      "value": "כל הדברים שמעולם לא נכתבו",
+      "type": "textarea"
+    },
+    {
+      "id": "c46feb6b-de6d-4488-af4c-cd4c25447a8d",
+      "value": "כל הדברים שמעולם לא נכתבו",
+      "type": "email"
+    },
+    {
+      "id": "998eb7c4-c15f-496e-8196-857f6aa574dd",
+      "value": "053892999",
+      "type": "tel"
+    },
+    {
+      "id": "7a9059f8-9bce-42d6-9a2a-cd68d7857cf6",
+      "value": "עלה קובץ",
+      "type": "file"
+    },
+    {
+      "id": "b47ad06c-7901-42af-958e-262a4f444ad9",
+      "value": "http://localhost:3000/",
+      "type": "url"
     }
   ]
 }

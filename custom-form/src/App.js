@@ -4,7 +4,7 @@ import Main from "./Main.js";
 import { useEffect, useRef } from "react";
 import { listItems } from "./services/api.js";
 import { setItems } from "./storage/store.js";
-const API = "http://localhost:5000/api/";
+const API = "http://localhost:4500/api/";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,10 +30,34 @@ function App() {
     };
   }, []);
   const items = useSelector((state) => state.app.items);
-  console.log("Items from Redux Store:", items);
+
+  const addMethod = async (value, type) => {
+    try {
+      const res = await fetch(`${API}items`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ value, type }),
+      });
+      console.log("Response from server after adding item:", res);
+      if (!res.ok)
+        throw new Error(`Failed to add item: ${res.status} ${res.statusText}`);
+      const created = await res.json();
+
+      // refresh items in store after successful create
+      const data = await listItems();
+      const itemsToSet = data?.items || [];
+      dispatch(setItems(itemsToSet));
+
+      return created;
+    } catch (err) {
+      console.error("Error adding item:", err);
+      throw err;
+    }
+  };
+
   return (
     <div className="App">
-      <Main items={items} />
+      <Main items={items} addMethod={addMethod} />
     </div>
   );
 }

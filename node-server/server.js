@@ -3,7 +3,7 @@ import cors from "cors";
 import { dirname } from "path";
 
 import { fileURLToPath } from "url";
-import { editingFileJson, readJson } from "./services/fs.service.js";
+import { addItem, deleteItem, readJson } from "./services/fs.service.js";
 import { randomUUID } from "crypto";
 
 const app = express();
@@ -44,7 +44,7 @@ app.post("/api/items", async (req, res) => {
     value,
     type,
   };
-  const items = editingFileJson("items.json", item);
+  const items = addItem("items.json", item);
   res.status(201).json(items);
 });
 
@@ -60,12 +60,10 @@ app.put("/api/items/:id", (req, res) => {
 });
 
 // Delete item
-app.delete("/api/items/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const idx = items.findIndex((i) => i.id === id);
-  if (idx === -1) return res.status(404).json({ error: "Not found" });
-  const [deleted] = items.splice(idx, 1);
-  res.json(deleted);
+app.delete("/api/items/:id", async (req, res) => {
+  const id = req.params.id;
+  const data = await deleteItem('items.json',id);
+  res.json(data);
 });
 
 const PORT = process.env.PORT || 4000;
@@ -75,6 +73,18 @@ let nextId = 1;
 const items = [];
 
 // Start server
+// simple request logger middleware
+app.use((req, res, next) => {
+  const start = process.hrtime();
+  res.on("finish", () => {
+    const [s, ns] = process.hrtime(start);
+    const ms = (s * 1e3 + ns / 1e6).toFixed(3);
+    const bodyPreview = req.body && Object.keys(req.body).length ? ` body=${JSON.stringify(req.body)}` : "";
+    console.log(`${req.method} ${req.originalUrl} ${res.statusCode} - ${ms}ms${bodyPreview}`);
+  });
+  next();
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
 });
