@@ -49,6 +49,11 @@
       "id": "b47ad06c-7901-42af-958e-262a4f444ad9",
       "value": "http://localhost:3000/",
       "type": "url"
+    },
+    {
+      "id": "75531fad-c888-4026-8a3c-64d7ca90a79f",
+      "value": "אין על ai",
+      "type": "text"
     }
   ]
 }
