@@ -5,16 +5,15 @@
   "main": "server.js",
   "scripts": {
     "test": "test",
-    "start": "cross-env PORT=4500 node server.js --watch"
+    "start": "node server.js --watch"
   },
   "type": "module",
   "author": "yizik",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0"
-  },
-  "devDependencies": {
-    "cross-env": "^10.1.0"
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.3"
   }
 }

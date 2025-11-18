@@ -14,7 +14,7 @@ const Main = ({ items , addMethod}) => {
       <div className="grid grid-cols-2 gap-6 w-full max-w-4xl">
         {Array.isArray(items) && items.length > 0 ? (
           items.map((item) => (
-            <div key={item.id} className="bg-white rounded-lg shadow p-4">
+            <div key={item._id} className="bg-white rounded-lg shadow p-4">
               <div className="form-group">
                 <Field item={item} />
               </div>

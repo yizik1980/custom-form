@@ -1,12 +1,12 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  title: 'Hello from Redux',
-  items: [],
+  title: "Hello from Redux",
+  inputs: [],
 };
 
 const appSlice = createSlice({
-  name: 'app',
+  name: "app",
   initialState,
   reducers: {
     setTitle(state, action) {
@@ -15,16 +15,15 @@ const appSlice = createSlice({
     },
     setItems(state, action) {
       console.log("Setting items in store:", action.payload);
-      return {...state, items: [...action.payload]};
+      return { ...state, inputs: [...action.payload] };
     },
     addItem(state, action) {
-      state.items.push(action.payload);
-      return state;
-    }
+      return { ...state, inputs: [...state.inputs, action.payload] };
+    },
   },
 });
 
-export const { setTitle, setItems } = appSlice.actions;
+export const { setTitle, setItems, addItem } = appSlice.actions;
 
 const store = configureStore({
   reducer: {

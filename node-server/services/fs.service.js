@@ -21,21 +21,7 @@ export async function readJson(fileName = "items.json", encoding = "utf8") {
     return { [nameList]: [] };
   }
 }
-/**
- * Writes the provided data as pretty-printed JSON to the filesystem at the path
- * returned by buildPath(fileName), and returns a Promise that resolves to the
- * same data.
- *
- * The function uses a synchronous filesystem write internally (writeFileSync).
- * Any errors encountered while writing are caught and logged to the console;
- * they are not rethrown, and the returned Promise still resolves with the
- * original `data`.
- *
- * @template T
- * @param {string} fileName - File name or relative path to be passed to buildPath.
- * @param {T} data - The data to serialize to JSON and write to disk.
- * @returns {Promise<{items:Array<{value:string,type:string}>}>} A Promise that resolves to the same `data` value passed in.
- */
+
 async function rewriteData(fileName, data) {
   try {
     writeFileSync(buildPath(fileName), JSON.stringify(data, null, 2), {
@@ -68,8 +54,35 @@ export async function deleteItem(fileName = "items.json", id) {
   return await rewriteData(fileName, data);
 }
 
+export async function updateItem(fileName = "items.json", id, updatedFields) {
+ const nameList = fileName.match(first_word_regex)[0];
+  const data = await readJson(fileName);  
+
+  if (!Array.isArray(data[nameList])) {
+    data[nameList] = [];
+  }
+  data[nameList] = data[nameList].map((item) => {
+    if (item.id === id) {
+      return { ...item, ...updatedFields };
+    }
+    return item;
+  });
+  return await rewriteData(fileName, data);
+}
+
+export async function getItemById(fileName = "items.json", id) {
+ const nameList = fileName.match(first_word_regex)[0];
+  const data = await readJson(fileName);
+  if (!Array.isArray(data[nameList])) {
+    data[nameList] = [];
+  }   
+  return data[nameList].find((item) => item.id === id);
+}
+
 export default {
   readJson,
   addItem,
   deleteItem,
+  updateItem,
+  getItemById,
 };
