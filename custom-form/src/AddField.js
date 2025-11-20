@@ -1,9 +1,10 @@
-﻿import { useState } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import "./AddField.css";
 
 const AddField = ({ addField }) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const users = useSelector((state) => state.app.users);
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
 
@@ -35,11 +36,7 @@ const AddField = ({ addField }) => {
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={handleOpen}
-      >
+      <button type="button" className="btn btn-primary" onClick={handleOpen}>
         Add Field
       </button>
 
@@ -91,17 +88,40 @@ const AddField = ({ addField }) => {
               </div>
 
               <div>
-                <label htmlFor="value">Label</label>
+                <label htmlFor="value">value</label>
                 <input
                   id="value"
                   name="value"
                   type="text"
-                  placeholder="Enter field label"
+                  placeholder="Enter field value"
                   required
                 />
                 <p className="hint">
                   This label is displayed alongside the new input field.
                 </p>
+              </div>
+              <div>
+                <label htmlFor="label">Label</label>
+                <input
+                  id="label"
+                  name="label"
+                  type="text"
+                  placeholder="Enter field label"
+                />
+                <p className="hint">
+                  This label is displayed alongside the new input field.
+                </p>
+              </div>
+              <div>
+                <label htmlFor="user">Assign to User</label>
+                <select id="user" name="user" defaultValue="">
+                  <option value=""> Select User</option>
+                  {users.map((user) => (
+                    <option key={user._id} value={user._id}>
+                      {user.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 

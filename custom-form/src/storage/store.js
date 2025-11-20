@@ -1,8 +1,9 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  title: "Hello from Redux",
+  title: "Hello ",
   inputs: [],
+  users:[]
 };
 
 const appSlice = createSlice({
@@ -13,17 +14,25 @@ const appSlice = createSlice({
       state.title = action.payload;
       return state;
     },
+    setUsers(state, action) {
+      return { ...state, users: [...action.payload] };
+    },
     setItems(state, action) {
-      console.log("Setting items in store:", action.payload);
       return { ...state, inputs: [...action.payload] };
     },
     addItem(state, action) {
       return { ...state, inputs: [...state.inputs, action.payload] };
     },
+    removeItem(state, action) {
+      return {
+        ...state,
+        inputs: state.inputs.filter((input) => input._id !== action.payload),
+      };
+    },
   },
 });
 
-export const { setTitle, setItems, addItem } = appSlice.actions;
+export const { setTitle, setItems, addItem, removeItem, setUsers } = appSlice.actions;
 
 const store = configureStore({
   reducer: {

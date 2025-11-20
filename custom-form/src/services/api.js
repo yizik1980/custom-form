@@ -40,4 +40,7 @@ export function deleteItem(id) {
   });
 }
 
-export default { listItems, getItem, createItem, updateItem, deleteItem };
+export function listUsers() {
+  return request("/api/users");
+}
+

@@ -4,6 +4,9 @@ export default mongoose.model(
   new mongoose.Schema(
     {
       type: { type: String, required: true },
+      value: { type: String, required: true },
+      label: { type: String, required: false },
+      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
     },
     { strict: false }
   )

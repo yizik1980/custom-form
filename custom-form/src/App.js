@@ -2,9 +2,13 @@ import { useSelector, useDispatch } from "react-redux";
 import "./App.css";
 import Main from "./Main.js";
 import { useEffect, useState } from "react";
-import { listItems, createItem } from "./services/api.js";
-import { setItems, addItem } from "./storage/store.js";
-const API = "http://localhost:4500/api/";
+import {
+  listItems,
+  createItem,
+  deleteItem,
+  listUsers,
+} from "./services/api.js";
+import { setItems, addItem, removeItem, setUsers } from "./storage/store.js";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +23,9 @@ function App() {
         const data = await listItems();
         const itemsToSet = data || [];
         dispatch(setItems(itemsToSet));
+        const userListResponse = await listUsers();
+        console.log(userListResponse);
+        dispatch(setUsers(userListResponse));
       } catch (err) {
         console.error("Error fetching items (async):", err);
         setError("We couldn't load the latest form fields. Please try again.");
@@ -27,7 +34,7 @@ function App() {
       }
     })();
     return () => {};
-  }, []);
+  }, [dispatch]);
   const items = useSelector((state) => state.app.inputs);
 
   const addNewInput = async (value, type) => {
@@ -37,6 +44,16 @@ function App() {
       return created;
     } catch (err) {
       console.error("Error adding item:", err);
+      throw err;
+    }
+  };
+
+  const removeInput = async (id) => {
+    try {
+      await deleteItem(id);
+      dispatch(removeItem(id));
+    } catch (err) {
+      console.error("Error deleting item:", err);
       throw err;
     }
   };
@@ -52,7 +69,7 @@ function App() {
         </div>
       )}
 
-      <Main items={items} addMethod={addNewInput} />
+      <Main items={items} addMethod={addNewInput} deleteMethod={removeInput} />
 
       {error && !isLoading && (
         <div className="preloader-error" role="alert">

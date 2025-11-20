@@ -9,6 +9,11 @@ router.get("/", async (req, res) => {
   res.json(users);
 });
 
+router.get("/:id", async (req, res) => {
+  const user = await User.find({ idNumber: req.params.id });
+  res.json(user);
+});
+
 // POST create new user
 router.post("/", async (req, res) => {
   try {
@@ -21,8 +26,12 @@ router.post("/", async (req, res) => {
 
 // DELETE user by id
 router.delete("/:id", async (req, res) => {
-  await User.findByIdAndDelete(req.params.id);
-  res.json({ message: "Deleted" });
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ message: `${req.params.id} was Deleted` });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
 
 export default router;
