@@ -93,20 +93,7 @@ input[type="file"] {
   border-radius: 6px;
 }
 
-/* Button styles */
-button,
-input[type="button"],
-input[type="submit"] {
-  display: inline-block;
-  padding: 0.55rem 0.9rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  background: linear-gradient(180deg, #2563eb, #1e40af);
-  color: #fff;
-  cursor: pointer;
-  transition: transform 80ms ease, box-shadow 120ms ease, filter 120ms ease;
-}
+
 button:hover,
 input[type="button"]:hover,
 input[type="submit"]:hover {
@@ -250,6 +237,30 @@ input[type="date"]:focus,
     background-position: calc(100% - 10px) center;
     background-size: 16px 16px;
   }
+}
+.relative{
+  position: relative;
+}
+.absolute{
+  position: absolute;
+}
+.t-0{
+  top:0;
+}
+.l-0{
+  left:0px;
+}
+.block{
+  display: block;
+}
+.list-none {
+  list-style: none;
+}
+.border-0{
+  border: none;
+}
+.transparent{
+  background-color: transparent;
 }
 /* Flex utilities */
 .flex {

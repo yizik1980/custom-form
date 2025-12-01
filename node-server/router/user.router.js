@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const user = await User.find({ idNumber: req.params.id });
+  const user = await User.find({ _id: req.params.id });
   res.json(user);
 });
 

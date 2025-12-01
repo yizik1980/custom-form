@@ -1,6 +1,6 @@
-const BASE = "http://localhost:4000";
+export const BASE = "http://localhost:4000";
 
-async function request(path, opts = {}) {
+export async function request(path, opts = {}) {
   const res = await fetch(`${BASE}${path}`, {
     headers: { "Content-Type": "application/json" },
     ...opts,
@@ -21,6 +21,7 @@ export function getItem(id) {
 }
 
 export function createItem(item) {
+  console.log("createItem", item);
   return request("/api/inputs", {
     method: "POST",
     body: JSON.stringify(item),
@@ -40,7 +41,5 @@ export function deleteItem(id) {
   });
 }
 
-export function listUsers() {
-  return request("/api/users");
-}
+
 
