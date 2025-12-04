@@ -1,18 +1,14 @@
+import Select from "../shared/Select";
 
 function UserSelect({selectUser, users}) {
-    const selectionUser = (e) => {
-        const selectedUserId = e.target.value;
-        console.log("Selected user ID:", selectedUserId);
-        selectUser(selectedUserId);
+    const selectionUser = (value) => {
+        console.log("Selected user ID:", value);
+        selectUser(value);
     }
   return (
     <div>
-      <select name="selectUser" id="select-user" onChange={selectionUser} >
-        <option value="">-- Select User --</option>
-        {users.map((user)=>
-            <option key={user._id} value={user._id}>{user.name}</option>
-        )}
-      </select>
+      <Select value={'users List'} list={users} onChange={selectionUser} >
+      </Select>
     </div>
   )
 }

@@ -9,5 +9,5 @@ export default mongoose.model(
       user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
     },
     { strict: false }
-  )
+  ) 
 );

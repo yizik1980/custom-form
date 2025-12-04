@@ -82,15 +82,6 @@ function Home(props) {
       )}
 
       <section className="panel">
-        <div className="panel-header">
-          <div>
-            <p className="eyebrow">Form canvas</p>
-            <h3 className="panel-title">Manage fields</h3>
-          </div>
-          <p className="muted">
-            Add fields, assign to users, and preview instantly.
-          </p>
-        </div>
 
         <Main
           items={filteredItems}

@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import userRoutes from "./router/user.router.js";
 import dotenv from "dotenv";
 import inputRoutes from "./router/input.router.js";
+import calendarRoutes from "./router/calendar.router.js";
 
 dotenv.config({ path: "./.env" });
 const connectionString = process.env.MONGO_CONNECTION_STRING;
@@ -22,6 +23,7 @@ mongoose
 
 app.use("/api/users", userRoutes);
 app.use("/api/inputs", inputRoutes);
+app.use("/api/calendar", calendarRoutes);
 // Health
 app.get("/", (req, res) => {
   res.json({ status: "ok", message: "Simple Express API" });
