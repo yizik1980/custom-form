@@ -7,8 +7,7 @@ import { setItems, addItem, removeItem, setUsers } from "../storage/store.js";
 
 function Home(props) {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+
   const [filteredItems, setFilteredItems] = useState([]);
 
   useEffect(() => {
@@ -72,14 +71,6 @@ function Home(props) {
   };
   return (
     <div className="home-shell">
-      {isLoading && (
-        <div className="preloader-overlay" role="status" aria-live="polite">
-          <div className="preloader-card">
-            <div className="preloader-spinner" aria-hidden="true" />
-            <p className="preloader-text">Loading your form fields...</p>
-          </div>
-        </div>
-      )}
 
       <section className="panel">
 
@@ -91,11 +82,7 @@ function Home(props) {
           users={users}
         />
 
-        {error && !isLoading && (
-          <div className="preloader-error" role="alert">
-            {error}
-          </div>
-        )}
+     
       </section>
     </div>
   );

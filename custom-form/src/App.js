@@ -4,10 +4,19 @@ import Home from "./pages/Home.js";
 import About from "./pages/About.js";
 import Users from "./pages/Users.js";
 function App() {
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   return (
     <Router>
+        {isLoading && (
+        <div className="preloader-overlay" role="status" aria-live="polite">
+          <div className="preloader-card">
+            <div className="preloader-spinner" aria-hidden="true" />
+            <p className="preloader-text">Loading your form fields...</p>
+          </div>
+        </div>
+      )}
       <div className="App">
         <header className="App-header">
           <h1>Custom Form Application</h1>
@@ -53,6 +62,11 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/users" element={<Users />} />
           </Routes>
+             {error && !isLoading && (
+          <div className="preloader-error" role="alert">
+            {error}
+          </div>
+        )}
         </main>
         <footer className="App-footer">
           <p>&copy; 2024 Custom Form Application</p>
