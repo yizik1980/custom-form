@@ -1,0 +1,27 @@
+:root {
+  --color-bg: #0f1b33;
+  --color-surface: #283450;
+  --color-surface-strong: #2f3c5f;
+  --color-border-color-strong: #1f2b44;
+  --color-border-color-soft: #1b2742;
+  --color-text-strong: #f3f6fb;
+  --color-placeholder: rgba(243, 246, 251, 0.72);
+  --color-accent: #3da0d9;
+  --color-select-arrow: #cfe6ff;
+  --small-width: 2px;
+  --input-height: 52px;
+  --input-padding-y: 0.9rem;
+  --input-padding-x: 1rem;
+  --input-radius: 999px;
+  --input-radius-block: 16px;
+  --input-border-color: var(--color-border-color-strong);
+  --input-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 10px 30px rgba(16, 25, 48, 0.25);
+
+  --input-bg-top: var(--color-surface-strong);
+  --input-bg-bottom: var(--color-surface);
+  --input-bg-focus-top: #36446b;
+  --input-bg-focus-bottom: #2d395a;
+  --focus-ring: 0 0 0 4px rgba(61, 160, 217, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}

@@ -1,0 +1,90 @@
+
+/* Styled select component leveraging shared theme vars */
+.select-shell {
+  position: relative;
+  min-width: 220px;
+  font-family: inherit;
+}
+
+.select-control {
+  width: 100%;
+  border: 1px solid var(--color-border-color-strong);
+  border-radius: var(--input-radius);
+  padding: 0.85rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  background: linear-gradient(180deg, var(--color-surface-strong), var(--color-surface));
+  color: var(--color-text-strong);
+  box-shadow: var(--input-shadow);
+  cursor: pointer;
+  transition: box-shadow 140ms ease, border-color 140ms ease, transform 80ms ease,
+    background 140ms ease;
+}
+
+.select-shell.is-open .select-control,
+.select-control:focus-visible {
+  border-color: var(--color-accent);
+  box-shadow: var(--focus-ring);
+  outline: none;
+  background: linear-gradient(180deg, var(--input-bg-focus-top), var(--input-bg-focus-bottom));
+}
+
+.select-value {
+  flex: 1;
+  text-align: left;
+  color: inherit;
+}
+
+.select-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-select-arrow);
+  font-size: 0.9rem;
+}
+
+.select-list {
+  position: absolute;
+  width: 100%;
+  margin: 0.35rem 0 0;
+  padding: 0.25rem;
+  list-style: none;
+  border-radius: 14px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-color-strong);
+  box-shadow: 0 18px 40px rgba(16, 25, 48, 0.35);
+  max-height: 260px;
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 140ms ease, transform 140ms ease;
+  z-index: 10;
+}
+
+.select-list.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.select-option {
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  color: var(--color-text-strong);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.select-option:hover,
+.select-option[aria-selected="true"] {
+  background: linear-gradient(90deg, rgba(61, 160, 217, 0.14), rgba(61, 160, 217, 0.08));
+  color: var(--color-text-strong);
+}
