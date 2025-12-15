@@ -32,7 +32,7 @@ export const EventModel = mongoose.model(
       time: { type: String, required: false },
       date: { type: Date, required: true },
       duration: { type: Number, required: false },
-      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      calendarDay: { type: mongoose.Schema.Types.ObjectId, ref: "CalendarDay" },
     },
     { strict: false }
   )

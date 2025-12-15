@@ -11,7 +11,8 @@ router.get("/:id", async (req, res) => {
     if (!req.params.id) {
       throw new Error("No user id provided");
     }
-    const days = await CalendarDayModel.find({ user: req.params.id });
+    const days = await CalendarDayModel.find({ user: req.params.id })
+      .populate("events").select("-user"); 
     res.json(days);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -47,7 +48,7 @@ router.post("/", async (req, res) => {
       time: getHours(dateCalendar),
       date,
       duration,
-      user,
+      calendarDay:foundDay._id
     });
     foundDay.events.push(event._id);
     await foundDay.save();
@@ -76,15 +77,23 @@ router.delete("/:id", async (req, res) => {
     if (!calendarDayFound) {
       return res.status(404).json({ error: "Event not found" });
     }
-    const eventResult = await EventModel.deleteMany({ _id: { $in: calendarDayFound.events } });
-    if(eventResult.deletedCount === 0){
-        return res.status(404).json({ error: "No associated events found to delete" });
+    const eventResult = await EventModel.deleteMany({
+      _id: { $in: calendarDayFound.events },
+    });
+    if (eventResult.deletedCount === 0) {
+      return res
+        .status(404)
+        .json({ error: "No associated events found to delete" });
     }
     const calendarResult = await CalendarDayModel.findByIdAndDelete(id);
-    if(!calendarResult){
-        return res.status(404).json({ error: "CalendarDay not found for deletion" });
+    if (!calendarResult) {
+      return res
+        .status(404)
+        .json({ error: "CalendarDay not found for deletion" });
     }
-    res.status(200).json({ message: "Event and associated CalendarDay deleted" });
+    res
+      .status(200)
+      .json({ message: "Event and associated CalendarDay deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

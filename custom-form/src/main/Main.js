@@ -1,8 +1,7 @@
 import { useState } from "react";
 import Field from "./../common/Field.js";
 import AddField from "./../common/AddField.js";
-import SelectionUser from "../common/UserSelect.js";
-const Main = ({ items, addMethod, deleteMethod, selectUser, users }) => {
+const Main = ({ items, addMethod, deleteMethod }) => {
   const [title] = useState("Dynamic Input Form");
   
   const handleDelete = (id) => {
@@ -16,7 +15,6 @@ const Main = ({ items, addMethod, deleteMethod, selectUser, users }) => {
       <h1 className="text-3xl font-semibold text-gray-900 mb-6">{title}</h1>
       <section className="grid gap-2 items-center justify-center">
         <AddField addField={addMethod} ></AddField>
-        <SelectionUser selectUser={selectUser} users={users}></SelectionUser>
       </section>
       <div className="grid grid-cols-2 gap-6 w-full max-w-4xl">
         {Array.isArray(items) && items.length > 0 ? (

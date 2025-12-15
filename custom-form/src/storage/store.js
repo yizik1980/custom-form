@@ -25,6 +25,11 @@ const appSlice = createSlice({
         ),
       };
     },
+    setSelectedUser(state, action) {
+      console.log("Setting selected user in store:", action.payload);
+      state.selectedUser = action.payload;
+      return state;
+    },
     setItems(state, action) {
       return { ...state, inputs: [...action.payload] };
     },
@@ -55,7 +60,8 @@ const appSlice = createSlice({
   },
 });
 
-export const { setTitle, setItems, addItem, removeItem, setUsers, removeUser, addUser, updateUser } =
+export const { setTitle, setItems, setSelectedUser,
+  addItem, removeItem, setUsers, removeUser, addUser, updateUser } =
   appSlice.actions;
 
 const store = configureStore({
