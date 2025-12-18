@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./Select.css";
 
 function Select({ list = [], onChange, label, placeHolder }) {
   const [isOpen, setIsOpen] = useState(false);

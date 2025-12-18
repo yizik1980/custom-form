@@ -5,6 +5,7 @@ const initialState = {
   inputs: [],
   users: [],
   usersObject: {},
+  calendarDays:[]
 };
 
 const appSlice = createSlice({
@@ -26,7 +27,6 @@ const appSlice = createSlice({
       };
     },
     setSelectedUser(state, action) {
-      console.log("Setting selected user in store:", action.payload);
       state.selectedUser = action.payload;
       return state;
     },

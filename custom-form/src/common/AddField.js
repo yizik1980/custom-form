@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import "./AddField.css";
 
 const AddField = ({ addField }) => {
   const [isOpen, setIsOpen] = useState(false);

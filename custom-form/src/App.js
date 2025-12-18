@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
-import "./App.css";
 import Home from "./pages/Home.js";
 import Users from "./pages/Users.js";
 import { useSelector } from "react-redux";
