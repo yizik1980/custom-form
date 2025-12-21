@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { listUsers } from "./services/api.user.js";
 import { setUsers } from "./storage/store.js";
+import { ToastProvider } from './shared/Toast/ToastContext.js';
 
 
 function App() {
@@ -38,7 +39,8 @@ function App() {
     setUserId(userId);
   };
   return (
-    <Router>
+    <ToastProvider>
+      <Router>
         {isLoading && (
         <div className="preloader-overlay" role="status" aria-live="polite">
           <div className="preloader-card">
@@ -104,6 +106,7 @@ function App() {
         </footer>
       </div>
     </Router>
+    </ToastProvider>
   );
 }
 
