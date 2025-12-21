@@ -11,7 +11,7 @@ const initialState = {
 const appSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {
+  reducers: {                                                                                                                                                                 
     setTitle(state, action) {
       state.title = action.payload;
       return state;

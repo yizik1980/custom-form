@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUserCalendarData, createCalendarEvent } from "../services/api.calendar.js";
 import Dialog from "../shared/Dialog.js";
+import { useToast } from "../shared/Toast/ToastContext.js";
 
 export default function Calendar({ title, selectedUser }) {
   const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
@@ -14,6 +15,7 @@ export default function Calendar({ title, selectedUser }) {
     time: '',
     duration: '',
   });
+  const { addToast } = useToast();
 
   function formatDate(date) {
     const d = date.getDate().toString().padStart(2, "0");
@@ -61,7 +63,9 @@ export default function Calendar({ title, selectedUser }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!selectedUser) return;
+    if (!selectedUser) {
+      addToast('Please select a user before adding an event', 'warning');
+      return;};
     const { date, time, ...rest } = formData;
     const dateTime = new Date(`${date}T${time}`);
     const eventData = {
@@ -76,7 +80,7 @@ export default function Calendar({ title, selectedUser }) {
       setCalendarData(data);
       handleCloseDialog();
     } catch (error) {
-      console.error('Error creating event:', error);
+      addToast('Error creating event', 'error');
     }
   };
 
