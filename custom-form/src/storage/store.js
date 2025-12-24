@@ -5,13 +5,42 @@ const initialState = {
   inputs: [],
   users: [],
   usersObject: {},
-  calendarDays:[]
+  calendarDays: {},
 };
 
 const appSlice = createSlice({
   name: "app",
   initialState,
-  reducers: {                                                                                                                                                                 
+  reducers: {
+    calendarDays(state, action) {
+      const { list, user } = action.payload;
+      return {
+        ...state,
+        calendarDays: {
+          [user]: list.reduce((curent, day) => {
+            const dayEvents = day.events || [];
+            return {
+              ...curent,
+              [day.date]: [...(curent[day.date] || []), ...dayEvents],
+            };
+          }, {}),
+        },
+      };
+    },
+    calendarDay(state, action) {
+      const updatedDays = state.calendarDays.map((day) =>
+        day._id === action.payload._id ? action.payload : day
+      );
+      return { ...state, calendarDays: updatedDays };
+    },
+    deleteCalendarDay(state, action) {
+      return {
+        ...state,
+        calendarDays: state.calendarDays.filter(
+          (day) => day._id !== action.payload
+        ),
+      };
+    },
     setTitle(state, action) {
       state.title = action.payload;
       return state;
@@ -60,9 +89,20 @@ const appSlice = createSlice({
   },
 });
 
-export const { setTitle, setItems, setSelectedUser,
-  addItem, removeItem, setUsers, removeUser, addUser, updateUser } =
-  appSlice.actions;
+export const {
+  setTitle,
+  setItems,
+  setSelectedUser,
+  calendarDays,
+  deleteCalendarDay,
+  calendarDay,
+  addItem,
+  removeItem,
+  setUsers,
+  removeUser,
+  addUser,
+  updateUser,
+} = appSlice.actions;
 
 const store = configureStore({
   reducer: {

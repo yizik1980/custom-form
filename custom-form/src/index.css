@@ -1440,7 +1440,12 @@ textarea { min-height: 100px; resize: vertical; }
 .calendar-container {
   padding: 20px;
 }
-
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 1px;
+  border: 1px solid #ccc;
+}
 .calendar-table {
   width: 100%;
   border-collapse: collapse;
@@ -1465,9 +1470,22 @@ textarea { min-height: 100px; resize: vertical; }
 
 .day-cell {
   vertical-align: top;
-  min-height: 50px;
+  padding: 1rem;
+  position: relative;
 }
-
+.day-cell::after{
+  content: "";
+  display: block;
+  height: 100%;
+  border-left: 1px solid #e6cdcd;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+}
+.day-cell:last-child::after{
+  display: none;
+}
 .event {
   background-color: #e0e0e0;
   margin: 2px 0;

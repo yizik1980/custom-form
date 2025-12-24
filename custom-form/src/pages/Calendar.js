@@ -1,22 +1,29 @@
 import { useEffect, useState } from "react";
-import { getUserCalendarData, createCalendarEvent } from "../services/api.calendar.js";
+import {
+  getUserCalendarData,
+  createCalendarEvent,
+} from "../services/api.calendar.js";
 import Dialog from "../shared/Dialog.js";
 import { useToast } from "../shared/Toast/ToastContext.js";
+import CalendarDialog from "../common/calendar/Calendar.dialog.js";
+import { calendarDays } from "../storage/store.js";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Calendar({ title, selectedUser }) {
+  const dispatch = useDispatch();
   const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
   // const [hourStarts] = useState(7);
   const [calendarData, setCalendarData] = useState([]);
   const [showDialog, setShowDialog] = useState(false);
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    date: '',
-    time: '',
-    duration: '',
+    title: "",
+    description: "",
+    date: "",
+    time: "",
+    duration: "",
   });
   const { addToast } = useToast();
-
+  const calendarDaysFromStore = useSelector((state) => state.app.calendarDays[selectedUser] || []);
   function formatDate(date) {
     const d = date.getDate().toString().padStart(2, "0");
     const m = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -48,24 +55,25 @@ export default function Calendar({ title, selectedUser }) {
   const handleCloseDialog = () => {
     setShowDialog(false);
     setFormData({
-      title: '',
-      description: '',
-      date: '',
-      time: '',
-      duration: '',
+      title: "",
+      description: "",
+      date: "",
+      time: "",
+      duration: "",
     });
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedUser) {
-      addToast('Please select a user before adding an event', 'warning');
-      return;};
+      addToast("Please select a user before adding an event", "warning");
+      return;
+    }
     const { date, time, ...rest } = formData;
     const dateTime = new Date(`${date}T${time}`);
     const eventData = {
@@ -74,90 +82,89 @@ export default function Calendar({ title, selectedUser }) {
       user: selectedUser,
     };
     try {
-      await createCalendarEvent(eventData);
+      const result = await createCalendarEvent(eventData);
+      if (!result) throw new Error("Failed to create event");
+      addToast("Event created successfully", "success");
       // Refresh data
       const data = await getUserCalendarData(selectedUser);
       setCalendarData(data);
+      dispatch(calendarDays({list:data, user:selectedUser}));
       handleCloseDialog();
     } catch (error) {
-      addToast('Error creating event', 'error');
+      addToast("Error creating event", "error");
     }
   };
 
   useEffect(() => {
-    console.log("Calendar received selectedUser prop:", selectedUser);
     if (selectedUser) {
       getUserCalendarData(selectedUser).then((data) => {
-        console.log("Fetched calendar data for user:", data);
+        dispatch(calendarDays({list:data, user:selectedUser}));
         setCalendarData(data);
       });
     }
-  }, [selectedUser]);
+  }, [selectedUser, dispatch]);
 
   return (
     <div className="calendar-container">
       <h2>{title}</h2>
-      <button onClick={handleOpenDialog} className="add-event-btn">Add Event</button>
-      <table className="calendar-table">
-        <thead>
-          <tr>
-            <th></th>
-            {weekDates.map((date, index) => (
-              <th key={index} className="day-header">
-                <div>{daysLetter[index]}</div>
-                <div>{date.getDate()}/{date.getMonth() + 1}</div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {hours.map(hour => (
-            <tr key={hour}>
-              <td className="hour-cell">{hour}:00</td>
+      <button onClick={handleOpenDialog} className="add-event-btn">
+        Add Event
+      </button>
+      <div className="calendar-table">
+        <div className="calendar-grid ">
+          <div className="day-header empty-cell"></div>
+          {weekDates.map((date, index) => (
+            <div key={index} className="day-header flex gap-3 justify-center items-center">
+              <div>{daysLetter[index]}</div>
+              <div>
+                {date.getDate()}/{date.getMonth() + 1}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="calendar-body">
+          {hours.map((hour) => (
+            <div key={hour} className="calendar-grid justify-center items-start">
+              <div className="hour-cell">{hour}:00</div>
               {weekDates.map((date, dayIndex) => {
-                const dayData = calendarData.find(d => d.date === formatDate(date));
-                const events = dayData ? dayData.events.filter(e => e.time && e.time.startsWith(hour.toString().padStart(2, '0'))) : [];
+                const dayData = calendarData.find(
+                  (d) => d.date === formatDate(date)
+                );
+                const events = dayData
+                  ? dayData.events.filter(
+                      (e) =>
+                        e.time &&
+                        e.time.startsWith(hour.toString().padStart(2, "0"))
+                    )
+                  : [];
                 return (
-                  <td key={dayIndex} className="day-cell">
+                  <div key={dayIndex} className="day-cell">
                     {events.map((event, idx) => (
                       <div key={idx} className="event">
                         {event.title} ({event.duration}min)
                       </div>
                     ))}
-                  </td>
+                  </div>
                 );
               })}
-            </tr>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      </div>
       <Dialog isOpen={showDialog} onClose={handleCloseDialog}>
-        <h3>Add New Event</h3>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Title:
-            <input type="text" name="title" value={formData.title} onChange={handleInputChange} required />
-          </label>
-          <label>
-            Description:
-            <textarea name="description" value={formData.description} onChange={handleInputChange} />
-          </label>
-          <label>
-            Date:
-            <input type="date" name="date" value={formData.date} onChange={handleInputChange} required />
-          </label>
-          <label>
-            Time:
-            <input type="time" name="time" value={formData.time} onChange={handleInputChange} required />
-          </label>
-          <label>
-            Duration (minutes):
-            <input type="number" name="duration" value={formData.duration} onChange={handleInputChange} required />
-          </label>
-          <button type="submit">Add Event</button>
-          <button type="button" onClick={handleCloseDialog}>Cancel</button>
-        </form>
+        <CalendarDialog
+          formData={formData}
+          handleInputChange={handleInputChange}
+          handleSubmit={handleSubmit}
+          handleCloseDialog={handleCloseDialog}
+        />
       </Dialog>
+      {calendarDaysFromStore && (
+        <div className="store-data">
+          <h3>Calendar Days from Store:</h3>
+          <pre>{JSON.stringify(calendarDaysFromStore, null, 2)}</pre> 
+        </div>
+      )}
     </div>
   );
 }
