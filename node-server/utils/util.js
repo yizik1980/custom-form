@@ -3,7 +3,7 @@ export function formatDate(date) {
   const dateString = dateCalendar.getDate().toString().padStart(2, "0");
   const monthString = (dateCalendar.getMonth() + 1).toString().padStart(2, "0");
   const yearString = dateCalendar.getFullYear().toString();
-  return `${yearString}-${monthString}-${dateString}`;
+  return `${dateString}-${monthString}-${yearString}`;
 }
 export function parseDateFromYYYYMMDD(dateString) {
   const [year, month, day] = dateString.split("-").map(Number);

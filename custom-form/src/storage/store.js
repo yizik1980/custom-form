@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { calendarGridDateStructure, formatDate } from "../common/calendar/calendar.model";
 
 const initialState = {
   title: "Hello ",
@@ -14,16 +15,28 @@ const appSlice = createSlice({
   reducers: {
     calendarDays(state, action) {
       const { list, user } = action.payload;
-      return {
-        ...state,
-        calendarDays: {
-          [user]: list.reduce((curent, day) => {
+      const calendar = calendarGridDateStructure();
+      const listedDates = list.reduce((curent, day) => {
             const dayEvents = day.events || [];
             return {
               ...curent,
               [day.date]: [...(curent[day.date] || []), ...dayEvents],
             };
-          }, {}),
+          }, {});
+          console.log("Listed Dates:", listedDates);
+      calendar.forEach((day) => {
+        const dateKey = formatDate(day.day);
+        console.log("Assigning events to date:", dateKey);
+        if (listedDates[dateKey]) {
+          day.events = listedDates[dateKey];
+        } else {
+          day.events = [];
+        }
+      });
+      return {
+        ...state,
+        calendarDays: {
+          [user]: calendar,
         },
       };
     },
