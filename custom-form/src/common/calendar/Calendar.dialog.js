@@ -1,5 +1,23 @@
 
+import Toast from '../../shared/Toast/Toast';
+
 function CalendarDialog({formData, handleInputChange, handleSubmit, handleCloseDialog}) {
+  let startTime = 0;
+  let endTime = 0;
+  const handleBlurEnd = (e) => {
+    // Intentionally left blank for future enhancements 
+    endTime = parseInt(e.target.value);
+     if (endTime <= startTime) {
+      Toast.error("End time must be after start time");
+      e.target.value = "";
+    }
+
+  }
+  const handleBlurStart = (e) => {
+    // Intentionally left blank for future enhancements
+    startTime = parseInt(e.target.value);
+   
+  }
   return (
     <div>
        <h3>Add New Event</h3>
@@ -17,12 +35,12 @@ function CalendarDialog({formData, handleInputChange, handleSubmit, handleCloseD
             <input type="date" name="date" value={formData.date} onChange={handleInputChange} required />
           </label>
           <label>
-            Time:
-            <input type="time" name="time" value={formData.time} onChange={handleInputChange} required />
+            Start Time:
+            <input type="time" name="time" value={formData.start}  onBlur={handleBlurStart} onChange={handleInputChange} required />
           </label>
           <label>
-            Duration (minutes):
-            <input type="number" name="duration" value={formData.duration} onChange={handleInputChange} required />
+            End Time:
+            <input type="time" name="duration" value={formData.end} onBlur={handleBlurEnd} onChange={handleInputChange} required />
           </label>
           <button type="submit">Add Event</button>
           <button type="button" onClick={handleCloseDialog}>Cancel</button>

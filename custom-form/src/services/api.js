@@ -1,4 +1,4 @@
-export const BASE = "http://localhost:4000";
+export const BASE = "http://localhost:4500";
 
 export async function request(path, opts = {}) {
   const res = await fetch(`${BASE}${path}`, {

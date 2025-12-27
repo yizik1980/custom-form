@@ -16,7 +16,7 @@ export const CalendarDayModel = mongoose.model(
     {
       date: { type: String, required: true },
       pirodeOfTime: { type: String, required: false },
-      events: [{ type: Array, required: false, default: [], ref: "Event" }],
+      events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event", required: false, default: [] }],
       user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     },
     { strict: false }
@@ -29,9 +29,12 @@ export const EventModel = mongoose.model(
     {
       title: { type: String, required: true },
       description: { type: String, required: false },
+      start: { type: String, required: false },
+      end: { type: String, required: false },
+      date: { type: String, required: true },
       time: { type: String, required: false },
-      date: { type: Date, required: true },
       duration: { type: Number, required: false },
+      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       calendarDay: { type: mongoose.Schema.Types.ObjectId, ref: "CalendarDay" },
     },
     { strict: false }
