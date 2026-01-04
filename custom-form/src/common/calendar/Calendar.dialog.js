@@ -14,7 +14,6 @@ function CalendarDialog({formData, handleInputChange, handleSubmit, handleCloseD
 
   }
   const handleBlurStart = (e) => {
-    // Intentionally left blank for future enhancements
     startTime = parseInt(e.target.value);
    
   }
