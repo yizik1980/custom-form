@@ -21,7 +21,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { title, description, date, user, duration } = req.body;
+    const { title, description, date, user, start, end, duration } = req.body;
 
     // 1. Make sure the user exists
     const existingUser = await User.findById(user);
@@ -47,6 +47,8 @@ router.post("/", async (req, res) => {
       description,
       time: getHours(dateCalendar),
       date,
+      start,
+      end,
       duration,
       calendarDay:foundDay._id
     });

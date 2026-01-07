@@ -32,8 +32,6 @@ export const EventModel = mongoose.model(
       start: { type: String, required: false },
       end: { type: String, required: false },
       date: { type: String, required: true },
-      time: { type: String, required: false },
-      duration: { type: Number, required: false },
       user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       calendarDay: { type: mongoose.Schema.Types.ObjectId, ref: "CalendarDay" },
     },

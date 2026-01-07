@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { listUsers } from "./services/api.user.js";
 import { setUsers } from "./storage/store.js";
 import { ToastProvider } from './shared/Toast/ToastContext.js';
+import Loading from "./shared/Loading.js";
 
 
 function App() {
@@ -41,14 +42,7 @@ function App() {
   return (
     <ToastProvider>
       <Router>
-        {isLoading && (
-        <div className="preloader-overlay" role="status" aria-live="polite">
-          <div className="preloader-card">
-            <div className="preloader-spinner" aria-hidden="true" />
-            <p className="preloader-text">Loading your form fields...</p>
-          </div>
-        </div>
-      )}
+       <Loading isLoading={isLoading}></Loading>
       <div className="App">
         <header className="App-header">
           <h1>Custom Form Application</h1>

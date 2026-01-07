@@ -23,7 +23,9 @@ export default function Calendar({ title, selectedUser }) {
     duration: "",
   });
   const { addToast } = useToast();
-  const calendarDaysFromStore = useSelector((state) => state.app.calendarDays[selectedUser] || []);
+  const calendarDaysFromStore = useSelector(
+    (state) => state.app.calendarDays[selectedUser] || []
+  );
   function formatDate(date) {
     const d = date.getDate().toString().padStart(2, "0");
     const m = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -50,6 +52,15 @@ export default function Calendar({ title, selectedUser }) {
 
   const handleOpenDialog = () => {
     setShowDialog(true);
+    setFormData({
+      title: "ניסיון" + Math.floor(Math.random() * 100),
+      description: "תיאור ניסיון",
+      date: new Date().toISOString().substring(0, 10),
+      start: new Date().toISOString().substring(11, 16),
+      end: new Date(new Date().getTime() + 60 * 60 * 1000)
+        .toISOString()
+        .substring(11, 16),
+    });
   };
 
   const handleCloseDialog = () => {
@@ -58,8 +69,8 @@ export default function Calendar({ title, selectedUser }) {
       title: "",
       description: "",
       date: "",
-      time: "",
-      duration: "",
+      end: "",
+      start: "",
     });
   };
 
@@ -74,11 +85,16 @@ export default function Calendar({ title, selectedUser }) {
       addToast("Please select a user before adding an event", "warning");
       return;
     }
-    const { date, time, ...rest } = formData;
-    const dateTime = new Date(`${date}T${time}`);
+
+    const { date, start, end } = formData;
+    const startDate = new Date(`${date}T${start}`);
+    const endDate = new Date(`${date}T${end}`);
+    const dateTime = new Date(date);
     const eventData = {
-      ...rest,
+      ...formData,
       date: dateTime.toISOString(),
+      start: startDate.toISOString(),
+      end: endDate.toISOString(),
       user: selectedUser,
     };
     try {
@@ -88,7 +104,7 @@ export default function Calendar({ title, selectedUser }) {
       // Refresh data
       const data = await getUserCalendarData(selectedUser);
       setCalendarData(data);
-      dispatch(calendarDays({list:data, user:selectedUser}));
+      dispatch(calendarDays({ list: data, user: selectedUser }));
       handleCloseDialog();
     } catch (error) {
       addToast("Error creating event", "error");
@@ -98,7 +114,7 @@ export default function Calendar({ title, selectedUser }) {
   useEffect(() => {
     if (selectedUser) {
       getUserCalendarData(selectedUser).then((data) => {
-        dispatch(calendarDays({list:data, user:selectedUser}));
+        dispatch(calendarDays({ list: data, user: selectedUser }));
         setCalendarData(data);
       });
     }
@@ -114,7 +130,10 @@ export default function Calendar({ title, selectedUser }) {
         <div className="calendar-grid ">
           <div className="day-header empty-cell"></div>
           {weekDates.map((date, index) => (
-            <div key={index} className="day-header flex gap-3 justify-center items-center">
+            <div
+              key={index}
+              className="day-header flex gap-3 justify-center items-center"
+            >
               <div>{daysLetter[index]}</div>
               <div>
                 {date.getDate()}/{date.getMonth() + 1}
@@ -124,7 +143,10 @@ export default function Calendar({ title, selectedUser }) {
         </div>
         <div className="calendar-body">
           {hours.map((hour) => (
-            <div key={hour} className="calendar-grid justify-center items-start">
+            <div
+              key={hour}
+              className="calendar-grid justify-center items-start"
+            >
               <div className="hour-cell">{hour}:00</div>
               {weekDates.map((date, dayIndex) => {
                 const dayData = calendarData.find(
@@ -162,7 +184,7 @@ export default function Calendar({ title, selectedUser }) {
       {calendarDaysFromStore && (
         <div className="store-data">
           <h3>Calendar Days from Store:</h3>
-          <pre>{JSON.stringify(calendarDaysFromStore, null, 2)}</pre> 
+          <pre>{JSON.stringify(calendarDaysFromStore, null, 2)}</pre>
         </div>
       )}
     </div>
