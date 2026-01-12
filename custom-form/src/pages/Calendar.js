@@ -12,8 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 export default function Calendar({ title, selectedUser }) {
   const dispatch = useDispatch();
   const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
-  // const [hourStarts] = useState(7);
-  const [calendarData, setCalendarData] = useState([]);
   const [showDialog, setShowDialog] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -26,34 +24,13 @@ export default function Calendar({ title, selectedUser }) {
   const calendarDaysFromStore = useSelector(
     (state) => state.app.calendarDays[selectedUser] || []
   );
-  function formatDate(date) {
-    const d = date.getDate().toString().padStart(2, "0");
-    const m = (date.getMonth() + 1).toString().padStart(2, "0");
-    const y = date.getFullYear();
-    return `${y}-${m}-${d}`;
-  }
 
-  function getWeekDates() {
-    const today = new Date();
-    const dayOfWeek = today.getDay();
-    const start = new Date(today);
-    start.setDate(today.getDate() - dayOfWeek);
-    const dates = [];
-    for (let i = 0; i < 7; i++) {
-      dates.push(new Date(start));
-      start.setDate(start.getDate() + 1);
-    }
-    return dates;
-  }
 
-  const weekDates = getWeekDates();
-
-  const hours = Array.from({ length: 12 }, (_, i) => i + 7);
 
   const handleOpenDialog = () => {
     setShowDialog(true);
     setFormData({
-      title: "ניסיון" + Math.floor(Math.random() * 100),
+      title: "ניסיון " + Math.floor(Math.random() * 100),
       description: "תיאור ניסיון",
       date: new Date().toISOString().substring(0, 10),
       start: new Date().toISOString().substring(11, 16),
@@ -103,7 +80,6 @@ export default function Calendar({ title, selectedUser }) {
       addToast("Event created successfully", "success");
       // Refresh data
       const data = await getUserCalendarData(selectedUser);
-      setCalendarData(data);
       dispatch(calendarDays({ list: data, user: selectedUser }));
       handleCloseDialog();
     } catch (error) {
@@ -115,7 +91,6 @@ export default function Calendar({ title, selectedUser }) {
     if (selectedUser) {
       getUserCalendarData(selectedUser).then((data) => {
         dispatch(calendarDays({ list: data, user: selectedUser }));
-        setCalendarData(data);
       });
     }
   }, [selectedUser, dispatch]);
@@ -129,49 +104,20 @@ export default function Calendar({ title, selectedUser }) {
       <div className="calendar-table">
         <div className="calendar-grid ">
           <div className="day-header empty-cell"></div>
-          {weekDates.map((date, index) => (
-            <div
-              key={index}
-              className="day-header flex gap-3 justify-center items-center"
-            >
+          {calendarDaysFromStore.map((date, index) => (
+            <div key={index} className="day-header">
               <div>{daysLetter[index]}</div>
               <div>
-                {date.getDate()}/{date.getMonth() + 1}
+                 {/*?.getDate()}/{date?.date?.getMonth() + 1*/}
               </div>
+              {/* {date.hours.map((hour) => (
+                <div key={hour} className="hour-cell relative border-t border-gray-300">
+                  <span className="t-0 l-0 p-1 red absolute align-center item-center font-weight-light font-small">{hour}</span></div>
+                ))} */}
             </div>
           ))}
         </div>
-        <div className="calendar-body">
-          {hours.map((hour) => (
-            <div
-              key={hour}
-              className="calendar-grid justify-center items-start"
-            >
-              <div className="hour-cell">{hour}:00</div>
-              {weekDates.map((date, dayIndex) => {
-                const dayData = calendarData.find(
-                  (d) => d.date === formatDate(date)
-                );
-                const events = dayData
-                  ? dayData.events.filter(
-                      (e) =>
-                        e.time &&
-                        e.time.startsWith(hour.toString().padStart(2, "0"))
-                    )
-                  : [];
-                return (
-                  <div key={dayIndex} className="day-cell">
-                    {events.map((event, idx) => (
-                      <div key={idx} className="event">
-                        {event.title} ({event.duration}min)
-                      </div>
-                    ))}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
+        
       </div>
       <Dialog isOpen={showDialog} onClose={handleCloseDialog}>
         <CalendarDialog
@@ -183,7 +129,6 @@ export default function Calendar({ title, selectedUser }) {
       </Dialog>
       {calendarDaysFromStore && (
         <div className="store-data">
-          <h3>Calendar Days from Store:</h3>
           <pre>{JSON.stringify(calendarDaysFromStore, null, 2)}</pre>
         </div>
       )}

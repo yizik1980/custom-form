@@ -12,7 +12,7 @@ function AddUserForm(props) {
       if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) newErrors.email = 'Invalid email';
       if (formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
       return newErrors;
-    };t
+    };
 
     const handleChange = (e) => {
       Toast.error(e.target.name + " changed");

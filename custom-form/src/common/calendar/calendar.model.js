@@ -16,15 +16,34 @@ export function formatDate(date) {
   const yearString = dateCalendar.getFullYear().toString();
   return `${dateString}-${monthString}-${yearString}`;
 }
-export function calendarGridDateStructure() {
+export function calendarGridDateStructure(list) {
+  const listedDates = list.reduce((curent, day) => {
+    const dayEvents = day.events || [];
+    return {
+      ...curent,
+      [day.date]: [...(curent[day.date] || []), ...dayEvents],
+    };
+  }, {});
   const today = new Date();
   const firstDayOfWeek = today.getDate() - today.getDay();
+
   return new Array(7).fill(0).map((_, i) => {
     const day = new Date(today.setDate(firstDayOfWeek + i));
-    return {
-      key: formatDate(day),
-      day,
-      hours: new Array(12).fill(0).map((hour, j) => j + 7), // Hours from 7 to 18
-    };
+    const key = formatDate(day);
+    const dayEvents = listedDates[key] || [];
+    const hoursEvents = dayEvents.reduce((curent, event) => {
+      const eventDate = new Date(event.start);
+      const hourKey = eventDate.getHours();
+      return { ...curent, [hourKey]: [...(curent[hourKey] || []), event] };
+    }, {});
+    return new Array(12)
+      .fill(0)
+      .map((h, j) => j + 7)
+      .map((hour) => ({
+        day,
+        key,
+        events: hoursEvents[hour] || [],
+        hour,
+      }));
   });
 }
