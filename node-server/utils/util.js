@@ -15,3 +15,10 @@ export function isValidDate(date) {
 export function getHours(date){
     return date.getHours().toString().padStart(2, "0") + ":" + date.getMinutes().toString().padStart(2, "0")
 }
+export function getMinutesDifference(startDate, endDate) {
+  const diffInMs = endDate - startDate;
+  return Math.floor(diffInMs / 60000); // Convert milliseconds to minutes
+}
+export function addMinutesToDate(date, minutes) {
+  return new Date(date.getTime() + minutes * 60000);
+}   

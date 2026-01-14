@@ -1,3 +1,13 @@
+
+export function generateRandomColor() {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  } 
+  return color;
+}
+
 export function calendarModel() {
   return {
     _id: "",
@@ -18,7 +28,7 @@ export function formatDate(date) {
 }
 export function calendarGridDateStructure(list) {
   const listedDates = list.reduce((curent, day) => {
-    const dayEvents = day.events || [];
+    const dayEvents = day.events.map((event) => ({...event,color:generateRandomColor()})) || [];
     return {
       ...curent,
       [day.date]: [...(curent[day.date] || []), ...dayEvents],

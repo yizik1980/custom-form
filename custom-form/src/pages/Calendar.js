@@ -25,8 +25,6 @@ export default function Calendar({ title, selectedUser }) {
     (state) => state.app.calendarDays[selectedUser] || []
   );
 
-
-
   const handleOpenDialog = () => {
     setShowDialog(true);
     setFormData({
@@ -103,21 +101,34 @@ export default function Calendar({ title, selectedUser }) {
       </button>
       <div className="calendar-table">
         <div className="calendar-grid ">
-          <div className="day-header empty-cell"></div>
           {calendarDaysFromStore.map((date, index) => (
             <div key={index} className="day-header">
               <div>{daysLetter[index]}</div>
-              <div>
-                 {/*?.getDate()}/{date?.date?.getMonth() + 1*/}
-              </div>
-              {/* {date.hours.map((hour) => (
-                <div key={hour} className="hour-cell relative border-t border-gray-300">
-                  <span className="t-0 l-0 p-1 red absolute align-center item-center font-weight-light font-small">{hour}</span></div>
-                ))} */}
+              {date.map((hourObj, idx) => (
+                <div
+                  key={idx}
+                  className="hour-cell relative border-t border-gray-300"
+                >
+                  <span className=" align-center item-center font-weight-light font-small">
+                    {hourObj.hour}
+                  </span>
+                  {hourObj.events.map((event, eIdx) => (
+                    <div
+                      key={eIdx}
+                      style={{ backgroundColor: event.color }}
+                      className="event p-2 m-1 rounded text-sm"
+                    >
+                      <h4>{event.title}</h4>
+                      <p>{event.description}</p>
+                      <p>{event.start}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
+              <div className="row">{date.day}</div>
             </div>
           ))}
         </div>
-        
       </div>
       <Dialog isOpen={showDialog} onClose={handleCloseDialog}>
         <CalendarDialog
@@ -127,11 +138,6 @@ export default function Calendar({ title, selectedUser }) {
           handleCloseDialog={handleCloseDialog}
         />
       </Dialog>
-      {calendarDaysFromStore && (
-        <div className="store-data">
-          <pre>{JSON.stringify(calendarDaysFromStore, null, 2)}</pre>
-        </div>
-      )}
     </div>
   );
 }
