@@ -10,6 +10,7 @@ import { listUsers } from "./services/api.user.js";
 import { setUsers } from "./storage/store.js";
 import { ToastProvider } from './shared/Toast/ToastContext.js';
 import Loading from "./shared/Loading.js";
+import { useI18n } from './i18n/I18nContext.js';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
   const [userId, setUserId] = useState(null);
   const users = useSelector((state) => state.app.users);
   const dispatch = useDispatch();
+  const { t } = useI18n();
 
   useEffect(() => {
     (async () => {
@@ -28,13 +30,13 @@ function App() {
         dispatch(setUsers(userListResponse));
       } catch (err) {
         console.error("Error fetching items (async):", err);
-        setError("We couldn't load the latest form fields. Please try again.");
+        setError(t('error.failedToLoad'));
       } finally {
         setIsLoading(false);
       }
     })();
     return () => {};
-  }, [dispatch]);
+  }, [dispatch, t]);
 
   const selectUser = (userId) => {
     setUserId(userId);
@@ -45,7 +47,7 @@ function App() {
        <Loading isLoading={isLoading}></Loading>
       <div className="App">
         <header className="App-header">
-          <h1>Custom Form Application</h1>
+          <h1>{t('app.title')}</h1>
           <nav>
             <ul className="nav-links">
               <li>
@@ -56,7 +58,7 @@ function App() {
                     isActive ? "nav-link active" : "nav-link"
                   }
                 >
-                  Home
+                  {t('nav.home')}
                 </NavLink>
               </li>
               <li>
@@ -66,7 +68,7 @@ function App() {
                     isActive ? "nav-link active" : "nav-link"
                   }
                 >
-                  calendar
+                  {t('nav.calendar')}
                 </NavLink>
               </li>
               <li>
@@ -76,7 +78,7 @@ function App() {
                     isActive ? "nav-link active" : "nav-link"
                   }
                 >
-                  Users
+                  {t('nav.users')}
                 </NavLink>
               </li>
             </ul>
@@ -96,7 +98,7 @@ function App() {
         )}
         </main>
         <footer className="App-footer">
-          <p>&copy; 2024 Custom Form Application</p>
+          <p>{t('app.copyright')}</p>
         </footer>
       </div>
     </Router>

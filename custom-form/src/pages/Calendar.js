@@ -8,10 +8,13 @@ import { useToast } from "../shared/Toast/ToastContext.js";
 import CalendarDialog from "../common/calendar/Calendar.dialog.js";
 import { calendarDays } from "../storage/store.js";
 import { useDispatch, useSelector } from "react-redux";
+import { useI18n } from "../i18n/I18nContext.js";
 
 export default function Calendar({ title, selectedUser }) {
   const dispatch = useDispatch();
-  const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
+  const { t } = useI18n();
+const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
+
   const [showDialog, setShowDialog] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -57,7 +60,7 @@ export default function Calendar({ title, selectedUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedUser) {
-      addToast("Please select a user before adding an event", "warning");
+      addToast(t('calendar.selectUserWarning'), "warning");
       return;
     }
 
@@ -75,13 +78,13 @@ export default function Calendar({ title, selectedUser }) {
     try {
       const result = await createCalendarEvent(eventData);
       if (!result) throw new Error("Failed to create event");
-      addToast("Event created successfully", "success");
+      addToast(t('calendar.eventCreatedSuccess'), "success");
       // Refresh data
       const data = await getUserCalendarData(selectedUser);
       dispatch(calendarDays({ list: data, user: selectedUser }));
       handleCloseDialog();
     } catch (error) {
-      addToast("Error creating event", "error");
+      addToast(t('calendar.eventCreateError'), "error");
     }
   };
 
@@ -95,28 +98,25 @@ export default function Calendar({ title, selectedUser }) {
 
   return (
     <div className="calendar-container">
-      <h2>{title}</h2>
+      <h2>{t('calendar.title')}</h2>
       <button onClick={handleOpenDialog} className="add-event-btn">
-        Add Event
+        {t('calendar.addEventButton')}
       </button>
       <div className="calendar-table">
-        <div className="calendar-grid ">
+        <div className="calendar-grid">
           {calendarDaysFromStore.map((date, index) => (
             <div key={index} className="day-header">
               <div>{daysLetter[index]}</div>
               {date.map((hourObj, idx) => (
-                <div
-                  key={idx}
-                  className="hour-cell relative border-t border-gray-300"
-                >
-                  <span className=" align-center item-center font-weight-light font-small">
-                    {hourObj.hour}
-                  </span>
+                <div key={idx} className="hour-cell">
+                  <span>{hourObj.hour}</span>
                   {hourObj.events.map((event, eIdx) => (
                     <div
                       key={eIdx}
-                      style={{ backgroundColor: event.color }}
-                      className="event p-2 m-1 rounded text-sm"
+                      style={{
+                        backgroundColor: event.color || '#667eea',
+                      }}
+                      className="event"
                     >
                       <h4>{event.title}</h4>
                       <p>{event.description}</p>
@@ -125,7 +125,7 @@ export default function Calendar({ title, selectedUser }) {
                   ))}
                 </div>
               ))}
-              <div className="row">{date.day}</div>
+              <div className="day-info">{date.day}</div>
             </div>
           ))}
         </div>

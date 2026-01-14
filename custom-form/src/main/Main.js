@@ -1,8 +1,9 @@
-import { useState } from "react";
 import Field from "./../common/Field.js";
 import AddField from "./../common/AddField.js";
+import { useI18n } from "../i18n/I18nContext.js";
+
 const Main = ({ items, addMethod, deleteMethod }) => {
-  const [title] = useState("Dynamic Input Form");
+  const { t } = useI18n();
   
   const handleDelete = (id) => {
     if (typeof deleteMethod === "function") {
@@ -12,7 +13,7 @@ const Main = ({ items, addMethod, deleteMethod }) => {
   
   return (
     <div className="w-container mx-auto p-6 flex flex-col items-center justify-center">
-      <h1 className="text-3xl font-semibold text-gray-900 mb-6">{title}</h1>
+      <h1 className="text-3xl font-semibold text-gray-900 mb-6">{t('home.title')}</h1>
       <section className="grid gap-2 items-center justify-center">
         <AddField addField={addMethod} ></AddField>
       </section>
@@ -30,7 +31,7 @@ const Main = ({ items, addMethod, deleteMethod }) => {
               <button
                 type="button"
                 className="block p-0 border-0 !pb-0 cursor-pointer hover:text-red-600"
-                aria-label={`Delete ${item?.label || "field"}`}
+                aria-label={t('home.deleteLabel', { label: item?.label || "field" })}
                 onClick={() => handleDelete(item._id)}
               >
                 <svg
@@ -52,7 +53,7 @@ const Main = ({ items, addMethod, deleteMethod }) => {
             </div>
           ))
         ) : (
-          <p className="text-gray-500">No items to display</p>
+          <p className="text-gray-500">{t('home.noItems')}</p>
         )}
       </div>
     </div>

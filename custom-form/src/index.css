@@ -1489,80 +1489,185 @@ textarea {
   }
 }
 
-/* From Calendar.css */
+/* ========== CALENDAR STYLES ========== */
 .calendar-container {
-  padding: 20px;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  border-radius: 12px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 1px;
-  border: 1px solid #ccc;
-  justify-content: center;
-  background-color: #e6cdcd;
 
+.calendar-container h2 {
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .calendar-table {
   width: 100%;
-  border-collapse: collapse;
-}
-
-.calendar-table th,
-.calendar-table td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: center;
-}
-
-.day-header {
-  background-color: #f0f0f0;
-  font-weight: bold;
-}
-
-.hour-cell {
-  background-color: #f9f9f9;
-  font-weight: bold;
-  min-height: 2rem;
-}
-
-.day-cell {
-  vertical-align: top;
-  padding: 1rem;
-  position: relative;
-}
-.day-cell::after {
-  content: "";
-  display: block;
-  height: 100%;
-  border-left: 1px solid #e6cdcd;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 1px;
-}
-.day-cell:last-child::after {
-  display: none;
-}
-.event {
-  background-color: #e0e0e0;
-  margin: 2px 0;
-  padding: 4px;
-  border-radius: 4px;
-  font-size: 12px;
+  margin-bottom: 2rem;
 }
 
 .add-event-btn {
-  margin-bottom: 10px;
-  padding: 8px 16px;
-  background-color: #007bff;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
 .add-event-btn:hover {
-  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.add-event-btn:active {
+  transform: translateY(0);
+}
+
+/* Calendar grid layout */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+/* Day columns */
+.day-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: bold;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 8px;
+  min-width: 150px;
+  box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.day-header > div:first-child {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Hour cells */
+.hour-cell {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  padding: 0.75rem;
+  min-height: 3rem;
+  border-radius: 6px;
+  font-weight: 500;
+  color: #495057;
+  font-size: 0.85rem;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.hour-cell:hover {
+  background-color: #f0f3f7;
+}
+
+.hour-cell span {
+  display: block;
+  color: #6c757d;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* Event styling */
+.event {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  margin: 0.5rem 0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 4px solid rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+}
+
+.event:hover {
+  transform: translateX(2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+}
+
+.event h4 {
+  margin: 0 0 0.25rem 0;
+  font-weight: 700;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.event p {
+  margin: 0.2rem 0;
+  font-size: 0.8rem;
+  opacity: 0.9;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.event p:first-of-type {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .calendar-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .calendar-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 1rem;
+  }
+
+  .calendar-container {
+    padding: 1rem;
+  }
+
+  .day-header {
+    min-width: auto;
+    padding: 0.75rem;
+  }
+
+  .add-event-btn {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 }
 
 .dialog-overlay {
@@ -1571,27 +1676,153 @@ textarea {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .dialog {
   background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  max-width: 90%;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.dialog h2,
 .dialog h3 {
   margin-top: 0;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
 }
 
 .dialog label {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
+  color: #495057;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.dialog label span {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.dialog input,
+.dialog textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  background: #f8f9fa;
+}
+
+.dialog input:focus,
+.dialog textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.dialog textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.dialog form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dialog button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.dialog button[type="submit"] {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.dialog button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.dialog button[type="button"],
+.close-btn {
+  background: #e9ecef;
+  color: #495057;
+  border: none;
+}
+
+.dialog button[type="button"]:hover,
+.close-btn:hover {
+  background: #dee2e6;
+  color: #212529;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  background: #f8f9fa;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background: #e9ecef;
 }
 
 .dialog input,
@@ -1621,8 +1852,7 @@ textarea {
   color: white;
 }
 
-/* From Select.css */
-/* Styled select component leveraging shared theme vars */
+/* ========== SELECT/DROPDOWN STYLES ========== */
 .select-shell {
   position: relative;
   min-width: 220px;
@@ -1631,72 +1861,82 @@ textarea {
 
 .select-control {
   width: 100%;
-  border: 1px solid var(--color-border-color-strong);
-  border-radius: var(--input-radius);
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
   padding: 0.85rem 1rem;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  background: linear-gradient(
-    180deg,
-    var(--color-surface-strong),
-    var(--color-surface)
-  );
-  color: var(--color-text-strong);
-  box-shadow: var(--input-shadow);
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  color: #2c3e50;
+  font-size: 0.95rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   cursor: pointer;
-  transition: box-shadow 140ms ease, border-color 140ms ease,
-    transform 80ms ease, background 140ms ease;
+  transition: all 0.3s ease;
+}
+
+.select-control:hover {
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+  background: linear-gradient(135deg, #f0f3f7 0%, #ffffff 100%);
 }
 
 .select-shell.is-open .select-control,
 .select-control:focus-visible {
-  border-color: var(--color-accent);
-  box-shadow: var(--focus-ring);
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 4px 12px rgba(102, 126, 234, 0.2);
   outline: none;
-  background: linear-gradient(
-    180deg,
-    var(--input-bg-focus-top),
-    var(--input-bg-focus-bottom)
-  );
+  background: linear-gradient(135deg, #f0f3f7 0%, #ffffff 100%);
 }
 
 .select-value {
   flex: 1;
   text-align: left;
   color: inherit;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .select-arrow {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--color-select-arrow);
-  font-size: 0.9rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.select-shell.is-open .select-arrow {
+  transform: rotate(180deg);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 .select-list {
   position: absolute;
   width: 100%;
-  margin: 0.35rem 0 0;
-  padding: 0.25rem;
+  margin: 0.5rem 0 0;
+  padding: 0.5rem;
   list-style: none;
-  border-radius: 14px;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border-color-strong);
-  box-shadow: 0 18px 40px rgba(16, 25, 48, 0.35);
-  max-height: 260px;
+  border-radius: 10px;
+  background: white;
+  border: 2px solid #e9ecef;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  max-height: 300px;
   overflow-y: auto;
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translateY(-8px);
   pointer-events: none;
-  transition: opacity 140ms ease, transform 140ms ease;
-  z-index: 10;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 1000;
 }
 
 .select-list.open {
@@ -1707,21 +1947,53 @@ textarea {
 
 .select-option {
   margin: 0;
-  padding: 0.65rem 0.75rem;
-  border-radius: 10px;
-  color: var(--color-text-strong);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  color: #495057;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 120ms ease, color 120ms ease;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
-.select-option:hover,
+.select-option:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
+  color: #667eea;
+  padding-left: 1.25rem;
+}
+
 .select-option[aria-selected="true"] {
-  background: linear-gradient(
-    90deg,
-    rgba(61, 160, 217, 0.14),
-    rgba(61, 160, 217, 0.08)
-  );
-  color: var(--color-text-strong);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.select-option[aria-selected="true"]::before {
+  content: "✓";
+  position: absolute;
+  left: 0.65rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Scrollbar styling for select list */
+.select-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.select-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.select-list::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+.select-list::-webkit-scrollbar-thumb:hover {
+  background: #764ba2;
 }
 
 /* From AddField.css */

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useI18n } from "../i18n/I18nContext.js";
 
 const AddField = ({ addField }) => {
   const [isOpen, setIsOpen] = useState(false);
   const users = useSelector((state) => state.app.users);
+  const { t } = useI18n();
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
 
@@ -36,7 +38,7 @@ const AddField = ({ addField }) => {
   return (
     <>
       <button type="button" className="btn btn-primary" onClick={handleOpen}>
-        Add Field
+        {t('addField.button')}
       </button>
 
       {isOpen && (
@@ -51,17 +53,17 @@ const AddField = ({ addField }) => {
             <header className="dialog-header">
               <div>
                 <h2 id="add-field-title" className="dialog-title">
-                  Add New Field
+                  {t('addField.title')}
                 </h2>
                 <p className="dialog-sub">
-                  Choose a field type and label to extend the form.
+                  {t('addField.subtitle')}
                 </p>
               </div>
               <button
                 type="button"
                 className="close-btn"
                 onClick={handleClose}
-                aria-label="Close add field dialog"
+                aria-label={t('addField.closeLabel')}
               >
                 <span aria-hidden="true">x</span>
               </button>
@@ -69,25 +71,25 @@ const AddField = ({ addField }) => {
 
             <div className="dialog-body">
               <div>
-                <label htmlFor="type">Type</label>
+                <label htmlFor="type">{t('addField.typeLabel')}</label>
                 <select id="type" name="type" defaultValue="text">
-                  <option value="text">Text</option>
-                  <option value="number">Number</option>
-                  <option value="date">Date</option>
-                  <option value="textarea">Textarea</option>
-                  <option value="checkbox">Checkbox</option>
-                  <option value="radio">Radio</option>
-                  <option value="select">Select</option>
-                  <option value="email">Email</option>
-                  <option value="password">Password</option>
-                  <option value="url">URL</option>
-                  <option value="tel">Telephone</option>
-                  <option value="file">File</option>
+                  <option value="text">{t('addField.fieldTypes.text')}</option>
+                  <option value="number">{t('addField.fieldTypes.number')}</option>
+                  <option value="date">{t('addField.fieldTypes.date')}</option>
+                  <option value="textarea">{t('addField.fieldTypes.textarea')}</option>
+                  <option value="checkbox">{t('addField.fieldTypes.checkbox')}</option>
+                  <option value="radio">{t('addField.fieldTypes.radio')}</option>
+                  <option value="select">{t('addField.fieldTypes.select')}</option>
+                  <option value="email">{t('addField.fieldTypes.email')}</option>
+                  <option value="password">{t('addField.fieldTypes.password')}</option>
+                  <option value="url">{t('addField.fieldTypes.url')}</option>
+                  <option value="tel">{t('addField.fieldTypes.tel')}</option>
+                  <option value="file">{t('addField.fieldTypes.file')}</option>
                 </select>
               </div>
 
               <div>
-                <label htmlFor="value">value</label>
+                <label htmlFor="value">{t('addField.valueLabel')}</label>
                 <input
                   id="value"
                   name="value"
@@ -96,11 +98,11 @@ const AddField = ({ addField }) => {
                   required
                 />
                 <p className="hint">
-                  This label is displayed alongside the new input field.
+                  {t('addField.valueHint')}
                 </p>
               </div>
               <div>
-                <label htmlFor="label">Label</label>
+                <label htmlFor="label">{t('addField.labelLabel')}</label>
                 <input
                   id="label"
                   name="label"
@@ -108,13 +110,13 @@ const AddField = ({ addField }) => {
                   placeholder="Enter field label"
                 />
                 <p className="hint">
-                  This label is displayed alongside the new input field.
+                  {t('addField.labelHint')}
                 </p>
               </div>
               <div>
-                <label htmlFor="user">Assign to User</label>
+                <label htmlFor="user">{t('addField.assignLabel')}</label>
                 <select id="user" name="user" defaultValue="">
-                  <option value=""> Select User</option>
+                  <option value="">{t('addField.selectUserPlaceholder')}</option>
                   {users.map((user) => (
                     <option key={user._id} value={user._id}>
                       {user.name}
@@ -130,10 +132,10 @@ const AddField = ({ addField }) => {
                 className="btn btn-secondary"
                 onClick={handleClose}
               >
-                Cancel
+                {t('addField.cancelButton')}
               </button>
               <button type="submit" className="btn btn-primary">
-                Create Field
+                {t('addField.createButton')}
               </button>
             </footer>
           </form>

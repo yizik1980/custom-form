@@ -1,4 +1,5 @@
 import Toast from "../../shared/Toast/Toast";
+import { useI18n } from "../../i18n/I18nContext.js";
 
 function CalendarDialog({
   formData,
@@ -6,6 +7,7 @@ function CalendarDialog({
   handleSubmit,
   handleCloseDialog,
 }) {
+  const { t } = useI18n();
   let startTime = 0;
   let endTime = 0;
  
@@ -14,7 +16,7 @@ function CalendarDialog({
     // Intentionally left blank for future enhancements
     endTime = parseInt(e.target.value);
     if (endTime <= startTime) {
-      Toast.error("End time must be after start time");
+      Toast.error(t('toast.endTimeError'));
       e.target.value = "";
     }
   };
@@ -23,10 +25,10 @@ function CalendarDialog({
   };
   return (
     <div>
-      <h3>Add New Event</h3>
+      <h3>{t('calendar.addEventTitle')}</h3>
       <form onSubmit={handleSubmit} >
         <label>
-          Title:
+          {t('calendar.titleLabel')}
           <input
             type="text"
             name="title"
@@ -36,7 +38,7 @@ function CalendarDialog({
           />
         </label>
         <label>
-          Description:
+          {t('calendar.descriptionLabel')}
           <textarea
             name="description"
             value={formData.description}
@@ -44,7 +46,7 @@ function CalendarDialog({
           />
         </label>
         <label>
-          Date:
+          {t('calendar.dateLabel')}
           <input
             type="date"
             name="date"
@@ -54,7 +56,7 @@ function CalendarDialog({
           />
         </label>
         <label>
-          Start Time:
+          {t('calendar.startTimeLabel')}
           <input
             type="time"
             name="start"
@@ -65,7 +67,7 @@ function CalendarDialog({
           />
         </label>
         <label>
-          End Time:
+          {t('calendar.endTimeLabel')}
           <input
             type="time"
             name="end"
@@ -75,9 +77,9 @@ function CalendarDialog({
             required
           />
         </label>
-        <button type="submit">Add Event</button>
+        <button type="submit">{t('calendar.addEventSubmit')}</button>
         <button type="button" onClick={handleCloseDialog}>
-          Cancel
+          {t('calendar.cancelButton')}
         </button>
       </form>
     </div>

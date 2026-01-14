@@ -3,12 +3,14 @@ import { deleteUser, createUser } from "../services/api.user.js";
 import { removeUser, setUsers, addUser } from "../storage/store.js";
 import { useState } from "react";
 import Dialog from "../shared/Dialog.js";
+import { useI18n } from "../i18n/I18nContext.js";
 
 function Users(props) {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.app.users);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newUser, setNewUser] = useState({ name: "", email: "" });
+  const { t, interpolate } = useI18n();
 
   const deleteUserAction = (userId) => {
     deleteUser(userId).then(() => {
@@ -29,13 +31,13 @@ function Users(props) {
     <section className="users-section">
       <div className="users-header">
         <div>
-          <p className="eyebrow">Team directory</p>
-          <h1>Users</h1>
-          <p className="muted">Manage the users linked to your form submissions.</p>
+          <p className="eyebrow">{t('users.eyebrow')}</p>
+          <h1>{t('users.title')}</h1>
+          <p className="muted">{t('users.description')}</p>
         </div>
         <div>
-          <button className="btn btn-primary" onClick={() => setIsDialogOpen(true)}>Add User</button>
-          <span className="tag-olive">{users.length} total</span>
+          <button className="btn btn-primary" onClick={() => setIsDialogOpen(true)}>{t('users.addButton')}</button>
+          <span className="tag-olive">{interpolate(t('users.totalCount'), { count: users.length })}</span>
         </div>
       </div>
 
@@ -47,25 +49,25 @@ function Users(props) {
             </div>
             <div className="user-body">
               <h3>{user.name}</h3>
-              <p className="user-email">{user.email || "No email on file"}</p>
+              <p className="user-email">{user.email || t('users.noEmailOnFile')}</p>
             </div>
             <button
               type="button"
               className="btn btn-ghost user-remove"
               onClick={() => deleteUserAction(user._id)}
-              aria-label={`Delete ${user.name}`}
+              aria-label={interpolate(t('users.deleteLabel'), { name: user.name })}
             >
-              Remove
+              {t('users.removeButton')}
             </button>
           </article>
         ))}
       </div>
 
       <Dialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
-        <h2>Add New User</h2>
+        <h2>{t('users.addNewUserTitle')}</h2>
         <form onSubmit={(e) => { e.preventDefault(); handleAddUser(); }}>
           <div>
-            <label htmlFor="name">Name:</label>
+            <label htmlFor="name">{t('users.nameLabel')}</label>
             <input
               id="name"
               type="text"
@@ -75,7 +77,7 @@ function Users(props) {
             />
           </div>
           <div>
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="email">{t('users.emailLabel')}</label>
             <input
               id="email"
               type="email"
@@ -84,8 +86,8 @@ function Users(props) {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary">Add User</button>
-          <button type="button" className="btn btn-ghost" onClick={() => setIsDialogOpen(false)}>Cancel</button>
+          <button type="submit" className="btn btn-primary">{t('users.addUserButton')}</button>
+          <button type="button" className="btn btn-ghost" onClick={() => setIsDialogOpen(false)}>{t('users.cancelButton')}</button>
         </form>
       </Dialog>
     </section>
