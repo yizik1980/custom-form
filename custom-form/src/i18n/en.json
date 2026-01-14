@@ -1,0 +1,88 @@
+{
+  "app": {
+    "title": "Custom Form Application",
+    "copyright": "© 2024 Custom Form Application"
+  },
+  "nav": {
+    "home": "Home",
+    "calendar": "calendar",
+    "users": "Users"
+  },
+  "home": {
+    "title": "Dynamic Input Form",
+    "noItems": "No items to display",
+    "deleteLabel": "Delete {{label}}"
+  },
+  "addField": {
+    "button": "Add Field",
+    "title": "Add New Field",
+    "subtitle": "Choose a field type and label to extend the form.",
+    "closeLabel": "Close add field dialog",
+    "typeLabel": "Type",
+    "valueLabel": "value",
+    "valueHint": "This label is displayed alongside the new input field.",
+    "labelLabel": "Label",
+    "labelHint": "This label is displayed alongside the new input field.",
+    "assignLabel": "Assign to User",
+    "selectUserPlaceholder": "Select User",
+    "cancelButton": "Cancel",
+    "createButton": "Create Field",
+    "fieldTypes": {
+      "text": "Text",
+      "number": "Number",
+      "date": "Date",
+      "textarea": "Textarea",
+      "checkbox": "Checkbox",
+      "radio": "Radio",
+      "select": "Select",
+      "email": "Email",
+      "password": "Password",
+      "url": "URL",
+      "tel": "Telephone",
+      "file": "File"
+    }
+  },
+  "users": {
+    "eyebrow": "Team directory",
+    "title": "Users",
+    "description": "Manage the users linked to your form submissions.",
+    "addButton": "Add User",
+    "totalCount": "{{count}} total",
+    "noEmailOnFile": "No email on file",
+    "removeButton": "Remove",
+    "deleteLabel": "Delete {{name}}",
+    "addNewUserTitle": "Add New User",
+    "nameLabel": "Name:",
+    "emailLabel": "Email:",
+    "addUserButton": "Add User",
+    "cancelButton": "Cancel"
+  },
+  "calendar": {
+    "title": "Calendar",
+    "addEventButton": "Add Event",
+    "addEventTitle": "Add New Event",
+    "titleLabel": "Title:",
+    "descriptionLabel": "Description:",
+    "dateLabel": "Date:",
+    "startTimeLabel": "Start Time:",
+    "endTimeLabel": "End Time:",
+    "addEventSubmit": "Add Event",
+    "cancelButton": "Cancel",
+    "selectUserWarning": "Please select a user before adding an event",
+    "eventCreatedSuccess": "Event created successfully",
+    "eventCreateError": "Error creating event",
+    "weekDays": ["א", "ב", "ג", "ד", "ה", "ו", "שבת"]
+  },
+  "loading": {
+    "text": "Loading your form fields..."
+  },
+  "error": {
+    "failedToLoad": "We couldn't load the latest form fields. Please try again."
+  },
+  "toast": {
+    "endTimeError": "End time must be after start time"
+  },
+  "userSelect": {
+    "placeholder": "users List"
+  }
+}

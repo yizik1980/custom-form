@@ -1,0 +1,88 @@
+{
+  "app": {
+    "title": "יישום טופס מותאם אישית",
+    "copyright": "© 2024 יישום טופס מותאם אישית"
+  },
+  "nav": {
+    "home": "בית",
+    "calendar": "לוח שנה",
+    "users": "משתמשים"
+  },
+  "home": {
+    "title": "טופס קלט דינמי",
+    "noItems": "אין פריטים להצגה",
+    "deleteLabel": "מחק {{label}}"
+  },
+  "addField": {
+    "button": "הוסף שדה",
+    "title": "הוסף שדה חדש",
+    "subtitle": "בחר סוג שדה וקובץ כדי להרחיב את הטופס.",
+    "closeLabel": "סגור דיאלוג הוספת שדה",
+    "typeLabel": "סוג",
+    "valueLabel": "ערך",
+    "valueHint": "קובץ זה מוצג לצד שדה הקלט החדש.",
+    "labelLabel": "קובץ",
+    "labelHint": "קובץ זה מוצג לצד שדה הקלט החדש.",
+    "assignLabel": "הקצה למשתמש",
+    "selectUserPlaceholder": "בחר משתמש",
+    "cancelButton": "ביטול",
+    "createButton": "צור שדה",
+    "fieldTypes": {
+      "text": "טקסט",
+      "number": "מספר",
+      "date": "תאריך",
+      "textarea": "אזור טקסט",
+      "checkbox": "תיבת סימון",
+      "radio": "כפתור רדיו",
+      "select": "בחירה",
+      "email": "דוא״ל",
+      "password": "סיסמה",
+      "url": "URL",
+      "tel": "טלפון",
+      "file": "קובץ"
+    }
+  },
+  "users": {
+    "eyebrow": "ספרייה של הצוות",
+    "title": "משתמשים",
+    "description": "נהל את המשתמשים המקושרים להגשות הטופס שלך.",
+    "addButton": "הוסף משתמש",
+    "totalCount": "{{count}} בסך הכל",
+    "noEmailOnFile": "אין דוא״ל בקובץ",
+    "removeButton": "הסר",
+    "deleteLabel": "מחק את {{name}}",
+    "addNewUserTitle": "הוסף משתמש חדש",
+    "nameLabel": "שם:",
+    "emailLabel": "דוא״ל:",
+    "addUserButton": "הוסף משתמש",
+    "cancelButton": "ביטול"
+  },
+  "calendar": {
+    "title": "לוח שנה",
+    "addEventButton": "הוסף אירוע",
+    "addEventTitle": "הוסף אירוע חדש",
+    "titleLabel": "כותרת:",
+    "descriptionLabel": "תיאור:",
+    "dateLabel": "תאריך:",
+    "startTimeLabel": "שעת התחלה:",
+    "endTimeLabel": "שעת סיום:",
+    "addEventSubmit": "הוסף אירוע",
+    "cancelButton": "ביטול",
+    "selectUserWarning": "אנא בחר משתמש לפני הוספת אירוע",
+    "eventCreatedSuccess": "האירוע נוצר בהצלחה",
+    "eventCreateError": "שגיאה בעת יצירת אירוע",
+    "weekDays": ["א", "ב", "ג", "ד", "ה", "ו", "שבת"]
+  },
+  "loading": {
+    "text": "טוען את שדות הטופס שלך..."
+  },
+  "error": {
+    "failedToLoad": "לא הצלחנו לטעון את שדות הטופס העדכניים ביותר. בואו נסו שוב."
+  },
+  "toast": {
+    "endTimeError": "שעת הסיום חייבת להיות אחרי שעת ההתחלה"
+  },
+  "userSelect": {
+    "placeholder": "רשימת משתמשים"
+  }
+}
