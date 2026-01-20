@@ -71,6 +71,8 @@
     "selectUserWarning": "אנא בחר משתמש לפני הוספת אירוע",
     "eventCreatedSuccess": "האירוע נוצר בהצלחה",
     "eventCreateError": "שגיאה בעת יצירת אירוע",
+    "eventDeletedSuccess": "האירוע נמחק בהצלחה",
+    "eventDeleteError": "שגיאה בעת מחיקת אירוע",
     "weekDays": ["א", "ב", "ג", "ד", "ה", "ו", "שבת"]
   },
   "loading": {

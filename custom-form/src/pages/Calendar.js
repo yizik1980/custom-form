@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   getUserCalendarData,
   createCalendarEvent,
+  deleteEvent
 } from "../services/api.calendar.js";
 import Dialog from "../shared/Dialog.js";
 import { useToast } from "../shared/Toast/ToastContext.js";
@@ -56,7 +57,18 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
+  const deleteEventclick = async (eventId) => {
+    // Implement event deletion logic here
+    try {
+      await deleteEvent(eventId);
+      addToast(t('calendar.eventDeletedSuccess'), "success"); 
+      // Refresh data
+      const data = await getUserCalendarData(selectedUser);
+      dispatch(calendarDays({ list: data, user: selectedUser }));
+    } catch (error) {
+      addToast(t('calendar.eventDeleteError'), "error");
+    } 
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedUser) {
@@ -111,13 +123,21 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
                 <div key={idx} className="hour-cell">
                   <span>{hourObj.hour}</span>
                   {hourObj.events.map((event, eIdx) => (
-                    <div
+                    <div 
                       key={eIdx}
                       style={{
                         backgroundColor: event.color || '#667eea',
                       }}
                       className="event"
                     >
+                      <button
+                        className="event-remove-btn"
+                        onClick={() => deleteEventclick(event._id)}
+                        aria-label="Delete event"
+                        title="Delete this event"
+                      >
+                        ×
+                      </button>
                       <h4>{event.title}</h4>
                       <p>{event.description}</p>
                       <p>{event.start}</p>

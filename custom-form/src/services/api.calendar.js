@@ -12,3 +12,9 @@ export const createCalendarEvent = (eventData) => {
     body: JSON.stringify(eventData),
   });
 };
+
+export const deleteEvent = (eventId) => {
+  return request(`/api/calendar/${eventId}`, {
+    method: 'DELETE',
+  });
+}
