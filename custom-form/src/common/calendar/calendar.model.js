@@ -27,13 +27,11 @@ export function formatDate(date) {
   return `${dateString}-${monthString}-${yearString}`;
 }
 export function calendarGridDateStructure(list) {
-  const listedDates = list.reduce((curent, day) => {
-    const dayEvents = day.events.map((event) => ({...event,color:generateRandomColor()})) || [];
-    return {
+  const listedDates = list.reduce((curent, day) => ({
       ...curent,
-      [day.date]: [...(curent[day.date] || []), ...dayEvents],
-    };
-  }, {});
+      [day.date]: [...(curent[day.date] || []), {...day,color:generateRandomColor()}],
+    
+  }), {});
   const today = new Date();
   const firstDayOfWeek = today.getDate() - today.getDay();
 

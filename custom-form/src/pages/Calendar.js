@@ -32,8 +32,11 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
   const handleOpenDialog = () => {
     setShowDialog(true);
     setFormData({
-      title: "ניסיון " + Math.floor(Math.random() * 100),
-      description: "תיאור ניסיון",
+      title:  t(
+        'calendar.sampleEventTitle'
+      ),
+      time: (Math.random() + Math.floor(Math.random() * 100)).toString(),
+      description: t('calendar.sampleEventDescription'),
       date: new Date().toISOString().substring(0, 10),
       start: new Date().toISOString().substring(11, 16),
       end: new Date(new Date().getTime() + 60 * 60 * 1000)
@@ -65,6 +68,7 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
       // Refresh data
       const data = await getUserCalendarData(selectedUser);
       dispatch(calendarDays({ list: data, user: selectedUser }));
+      
     } catch (error) {
       addToast(t('calendar.eventDeleteError'), "error");
     } 

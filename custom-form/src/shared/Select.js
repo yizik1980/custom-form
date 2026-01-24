@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 
-function Select({ list = [], onChange, label, placeHolder }) {
+function Select({ list = [], onChange, label }) {
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState(label || "");
-
+  
+  // Update internal state when label prop changes
+  useEffect(() => {
+    setValue(label || "");
+  }, [label]);
+  
+console.log("Select value", value);
   const toggleList = () => setIsOpen((prev) => !prev);
-
+  const selectOption = (item) => {
+    setValue(item.label || item.name || item.value);
+    onChange && onChange(item._id);
+    setIsOpen(false);
+  };  
   return (
     <div className={`select-shell ${isOpen ? "is-open" : ""}`}>
       <button
@@ -28,12 +38,7 @@ function Select({ list = [], onChange, label, placeHolder }) {
             className="select-option"
             role="option"
             aria-selected={item._id === value}
-            onClick={() => {
-              setIsOpen(false);
-              const value = item._id;
-              setValue(item.label || item.name || item.value);
-              onChange && onChange(value);
-            }}
+            onClick={selectOption.bind(null, item)}
             key={item._id}
           >
             {item.label || item.name || item.value || "Option"}

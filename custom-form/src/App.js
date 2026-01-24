@@ -28,6 +28,12 @@ function App() {
       try {
         const userListResponse = await listUsers();
         dispatch(setUsers(userListResponse));
+        // Select a random user from the loaded users
+        if (userListResponse && userListResponse.length > 0) {
+          const randomIndex = Math.floor(Math.random() * userListResponse.length);
+          const randomUser = userListResponse[randomIndex];
+          setUserId(randomUser._id);
+        }
       } catch (err) {
         console.error("Error fetching items (async):", err);
         setError(t('error.failedToLoad'));
@@ -83,7 +89,7 @@ function App() {
               </li>
             </ul>
           </nav>
-            <SelectionUser selectUser={selectUser} users={users}></SelectionUser>
+            <SelectionUser selectUser={selectUser} users={users} selectedUserId={userId}></SelectionUser>
         </header>
         <main>
           <Routes>

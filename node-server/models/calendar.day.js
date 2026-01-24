@@ -10,18 +10,7 @@ export class CalendarDay {
     this.date = date;
   }
 }
-export const CalendarDayModel = mongoose.model(
-  "CalendarDay",
-  new mongoose.Schema(
-    {
-      date: { type: String, required: true },
-      pirodeOfTime: { type: String, required: false },
-      events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event", required: false, default: [] }],
-      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    },
-    { strict: false }
-  )
-);
+
 
 export const EventModel = mongoose.model(
   "Event",

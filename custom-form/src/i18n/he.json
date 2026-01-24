@@ -72,6 +72,8 @@
     "eventCreatedSuccess": "האירוע נוצר בהצלחה",
     "eventCreateError": "שגיאה בעת יצירת אירוע",
     "eventDeletedSuccess": "האירוע נמחק בהצלחה",
+    "sampleEventTitle":"מה יהיה עם השטות",
+    "sampleEventDescription":"תיאור התרחיש",
     "eventDeleteError": "שגיאה בעת מחיקת אירוע",
     "weekDays": ["א", "ב", "ג", "ד", "ה", "ו", "שבת"]
   },

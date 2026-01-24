@@ -1,5 +1,4 @@
 import express from "express";
-import { CalendarDayModel } from "../models/calendar.day.js";
 import { EventModel } from "../models/calendar.day.js";
 import User from "../models/user.model.js";
 import { formatDate, isValidDate, getHours } from "../utils/util.js";
@@ -11,8 +10,8 @@ router.get("/:id", async (req, res) => {
     if (!req.params.id) {
       throw new Error("No user id provided");
     }
-    const days = await CalendarDayModel.find({ user: req.params.id })
-      .populate("events").select("-user"); 
+    
+    const days = await EventModel.find({ user: req.params.id }).select("-user");
     res.json(days);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -33,39 +32,30 @@ router.post("/", async (req, res) => {
       throw new Error("Invalid date provided");
     }
     const formattedDate = formatDate(dateCalendar);
-    const foundDay =
-      (await CalendarDayModel.findOne({ user, date: formattedDate })) ??
-      (await CalendarDayModel.create({
-        user,
-        date: formattedDate,
-        events: [],
-      }));
     // If no CalendarDay exists for this user/date, create it
     // 2. Save the event (user is valid)
     const event = await EventModel.create({
       title,
       description,
       time: getHours(dateCalendar),
-      date,
+      date: formattedDate,
       start,
       end,
       duration,
-      calendarDay:foundDay._id
-    });
-    foundDay.events.push(event._id);
-    await foundDay.save();
-
-    const calendarDay = await CalendarDayModel.findOne({
       user,
-      date: formattedDate,
-    }).populate("events");
+    });
+    await event.save();
+
+    const calendarDayEvent = await EventModel.findOne({
+      user
+    });
     // If you also want to know whether a CalendarDay was updated:
-    if (!calendarDay) {
+    if (!calendarDayEvent) {
       console.log(
-        "Event saved, but no existing CalendarDay for this date/user"
+        "Event saved, but no existing CalendarDay for this date/user",
       );
     }
-    res.status(201).json({ event, calendarDay });
+    res.status(201).json({ calendarDayEvent });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -75,23 +65,15 @@ router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    const calendarDayFound = await CalendarDayModel.findById(id);
+    const calendarDayFound = await EventModel.findById(id);
     if (!calendarDayFound) {
       return res.status(404).json({ error: "Event not found" });
     }
-    const eventResult = await EventModel.deleteMany({
-      _id: { $in: calendarDayFound.events },
-    });
+    const eventResult = await EventModel.deleteOne({ _id: id });
     if (eventResult.deletedCount === 0) {
       return res
         .status(404)
         .json({ error: "No associated events found to delete" });
-    }
-    const calendarResult = await CalendarDayModel.findByIdAndDelete(id);
-    if (!calendarResult) {
-      return res
-        .status(404)
-        .json({ error: "CalendarDay not found for deletion" });
     }
     res
       .status(200)
