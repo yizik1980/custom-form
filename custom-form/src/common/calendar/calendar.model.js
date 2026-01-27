@@ -26,6 +26,9 @@ export function formatDate(date) {
   const yearString = dateCalendar.getFullYear().toString();
   return `${dateString}-${monthString}-${yearString}`;
 }
+export function getHours(date){
+    return date.getHours().toString().padStart(2, "0") + ":" + date.getMinutes().toString().padStart(2, "0")
+}
 export function calendarGridDateStructure(list) {
   const listedDates = list.reduce((curent, day) => ({
       ...curent,

@@ -10,6 +10,7 @@ import CalendarDialog from "../common/calendar/Calendar.dialog.js";
 import { calendarDays } from "../storage/store.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useI18n } from "../i18n/I18nContext.js";
+import { getHours } from "../common/calendar/calendar.model.js";
 
 export default function Calendar({ title, selectedUser }) {
   const dispatch = useDispatch();
@@ -144,7 +145,7 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
                       </button>
                       <h4>{event.title}</h4>
                       <p>{event.description}</p>
-                      <p>{event.start}</p>
+                      <p>{getHours(new Date(event.start))}</p>
                     </div>
                   ))}
                 </div>
