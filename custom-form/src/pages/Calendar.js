@@ -135,6 +135,7 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
                       }}
                       className="event"
                     >
+                      {event.color && <div className="event-color-indicator" style={{ backgroundColor: event.color }} />}
                       <button
                         className="event-remove-btn"
                         onClick={() => deleteEventclick(event._id)}
