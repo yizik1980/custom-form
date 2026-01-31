@@ -30,16 +30,17 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
     (state) => state.app.calendarDays[selectedUser] || []
   );
 
-  const handleOpenDialog = () => {
+  const handleOpenDialog = (day) => {
     setShowDialog(true);
+    debugger;
     setFormData({
       title:  t(
         'calendar.sampleEventTitle'
       ),
       time: (Math.random() + Math.floor(Math.random() * 100)).toString(),
       description: t('calendar.sampleEventDescription'),
-      date: new Date().toISOString().substring(0, 10),
-      start: new Date().toISOString().substring(11, 16),
+      date: (day || new Date()).toISOString().substring(0, 10),
+      start: (day || new Date()).toISOString().substring(11, 16),
       end: new Date(new Date().getTime() + 60 * 60 * 1000)
         .toISOString()
         .substring(11, 16),
@@ -121,12 +122,30 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
       </button>
       <div className="calendar-table">
         <div className="calendar-grid">
-          {calendarDaysFromStore.map((date, index) => (
-            <div key={index} className="day-header">
-              <div>{daysLetter[index]}</div>
-              {date.map((hourObj, idx) => (
-                <div key={idx} className="hour-cell">
-                  <span>{hourObj.hour}</span>
+          {/* Hours column on the left */}
+          <div className="hours-column">
+            <div className="hour-header"></div>
+            {calendarDaysFromStore.length > 0 &&
+              calendarDaysFromStore[0].map((hourObj, idx) => (
+                <div key={idx} className="hour-label">
+                  {hourObj.hour}:00
+                </div>
+              ))}
+          </div>
+
+          {/* Days columns */}
+          {calendarDaysFromStore.map((date, dayIndex) => (
+            <div key={dayIndex} className="day-column">
+              <div className="day-header">
+                {daysLetter[dayIndex]}
+              </div>
+              {date.map((hourObj, hourIndex) => (
+                <div key={hourIndex} onClick={()=>{
+                  const day = date[dayIndex].day;
+                  const hour = new Date();
+                  day.setHours(hourObj.hour,0,0,0);
+                  handleOpenDialog(day,hour)
+                }} className="hour-cell">
                   {hourObj.events.map((event, eIdx) => (
                     <div 
                       key={eIdx}
@@ -151,7 +170,6 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
                   ))}
                 </div>
               ))}
-              <div className="day-info">{date.day}</div>
             </div>
           ))}
         </div>
