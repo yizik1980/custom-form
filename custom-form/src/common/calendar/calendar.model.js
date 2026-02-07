@@ -39,9 +39,10 @@ export function calendarGridDateStructure(list) {
   const firstDayOfWeek = today.getDate() - today.getDay();
 
   return new Array(7).fill(0).map((_, i) => {
-    const day = new Date(today.setDate(firstDayOfWeek + i));
-    const key = formatDate(day);
-    const dayEvents = listedDates[key] || [];
+  const day = new Date(today.setDate(firstDayOfWeek + i));
+  const dayIso = day.toISOString();
+  const key = formatDate(day);
+  const dayEvents = listedDates[key] || [];
     const hoursEvents = dayEvents.reduce((curent, event) => {
       const eventDate = new Date(event.start);
       const hourKey = eventDate.getHours();
@@ -51,7 +52,7 @@ export function calendarGridDateStructure(list) {
       .fill(0)
       .map((h, j) => j + 7)
       .map((hour) => ({
-        day,
+        day: dayIso,
         key,
         events: hoursEvents[hour] || [],
         hour,

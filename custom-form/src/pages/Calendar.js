@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   getUserCalendarData,
   createCalendarEvent,
-  deleteEvent
+  deleteEvent,
 } from "../services/api.calendar.js";
 import Dialog from "../shared/Dialog.js";
 import { useToast } from "../shared/Toast/ToastContext.js";
@@ -15,7 +15,7 @@ import { getHours } from "../common/calendar/calendar.model.js";
 export default function Calendar({ title, selectedUser }) {
   const dispatch = useDispatch();
   const { t } = useI18n();
-const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
+  const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
 
   const [showDialog, setShowDialog] = useState(false);
   const [formData, setFormData] = useState({
@@ -27,23 +27,23 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
   });
   const { addToast } = useToast();
   const calendarDaysFromStore = useSelector(
-    (state) => state.app.calendarDays[selectedUser] || []
+    (state) => state.app.calendarDays[selectedUser] || [],
   );
 
   const handleOpenDialog = (day) => {
+    let dateTime = day ? new Date(day) : new Date();
     setShowDialog(true);
-    debugger;
     setFormData({
-      title:  t(
-        'calendar.sampleEventTitle'
-      ),
+      title: t("calendar.sampleEventTitle"),
       time: (Math.random() + Math.floor(Math.random() * 100)).toString(),
-      description: t('calendar.sampleEventDescription'),
-      date: (day || new Date()).toISOString().substring(0, 10),
-      start: (day || new Date()).toISOString().substring(11, 16),
-      end: new Date(new Date().getTime() + 60 * 60 * 1000)
-        .toISOString()
-        .substring(11, 16),
+      description: t("calendar.sampleEventDescription"),
+      date: dateTime.toISOString().substring(0, 10),
+      start: dateTime.getHours().toString().padStart(2, "0") + ":00",
+      end:
+        new Date(dateTime.getTime() + 60 * 60 * 1000)
+          .getHours()
+          .toString()
+          .padStart(2, "0") + ":00",
     });
   };
 
@@ -66,19 +66,18 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
     // Implement event deletion logic here
     try {
       await deleteEvent(eventId);
-      addToast(t('calendar.eventDeletedSuccess'), "success"); 
+      addToast(t("calendar.eventDeletedSuccess"), "success");
       // Refresh data
       const data = await getUserCalendarData(selectedUser);
       dispatch(calendarDays({ list: data, user: selectedUser }));
-      
     } catch (error) {
-      addToast(t('calendar.eventDeleteError'), "error");
-    } 
+      addToast(t("calendar.eventDeleteError"), "error");
+    }
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedUser) {
-      addToast(t('calendar.selectUserWarning'), "warning");
+      addToast(t("calendar.selectUserWarning"), "warning");
       return;
     }
 
@@ -96,16 +95,22 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
     try {
       const result = await createCalendarEvent(eventData);
       if (!result) throw new Error("Failed to create event");
-      addToast(t('calendar.eventCreatedSuccess'), "success");
+      addToast(t("calendar.eventCreatedSuccess"), "success");
       // Refresh data
       const data = await getUserCalendarData(selectedUser);
       dispatch(calendarDays({ list: data, user: selectedUser }));
       handleCloseDialog();
     } catch (error) {
-      addToast(t('calendar.eventCreateError'), "error");
+      addToast(t("calendar.eventCreateError"), "error");
     }
   };
 
+  const handleAddEventClick = (date, dayIndex, hourObj) => {
+    const dayStr = date[dayIndex].day;
+    const dayDate = new Date(dayStr);
+    dayDate.setHours(hourObj.hour, 0, 0, 0);
+    handleOpenDialog(dayDate);
+  };
   useEffect(() => {
     if (selectedUser) {
       getUserCalendarData(selectedUser).then((data) => {
@@ -116,9 +121,9 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
 
   return (
     <div className="calendar-container">
-      <h2>{t('calendar.title')}</h2>
+      <h2>{t("calendar.title")}</h2>
       <button onClick={handleOpenDialog} className="add-event-btn">
-        {t('calendar.addEventButton')}
+        {t("calendar.addEventButton")}
       </button>
       <div className="calendar-table">
         <div className="calendar-grid">
@@ -136,25 +141,34 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
           {/* Days columns */}
           {calendarDaysFromStore.map((date, dayIndex) => (
             <div key={dayIndex} className="day-column">
-              <div className="day-header">
-                {daysLetter[dayIndex]}
-              </div>
+              <div className="day-header">{daysLetter[dayIndex]}</div>
               {date.map((hourObj, hourIndex) => (
-                <div key={hourIndex} onClick={()=>{
-                  const day = date[dayIndex].day;
-                  const hour = new Date();
-                  day.setHours(hourObj.hour,0,0,0);
-                  handleOpenDialog(day,hour)
-                }} className="hour-cell">
+                <div
+                  key={hourIndex}
+                  
+                  className="hour-cell relative"
+                >
+                <span className="plus-sign cursor-pointer" onClick={handleAddEventClick.bind(
+                    null,
+                    date,
+                    dayIndex,
+                    hourObj,
+                  )} >+</span>
+                  <div className="events-container flex flex-wrap">
                   {hourObj.events.map((event, eIdx) => (
-                    <div 
+                    <div
                       key={eIdx}
                       style={{
-                        backgroundColor: event.color || '#667eea',
+                        backgroundColor: event.color || "#667eea",
                       }}
                       className="event"
                     >
-                      {event.color && <div className="event-color-indicator" style={{ backgroundColor: event.color }} />}
+                      {event.color && (
+                        <div
+                          className="event-color-indicator"
+                          style={{ backgroundColor: event.color }}
+                        />
+                      )}
                       <button
                         className="event-remove-btn"
                         onClick={() => deleteEventclick(event._id)}
@@ -168,6 +182,7 @@ const daysLetter = ["א", "ב", "ג", "ד", "ה", "ו", "שבת"];
                       <p>{getHours(new Date(event.start))}</p>
                     </div>
                   ))}
+                  </div>
                 </div>
               ))}
             </div>

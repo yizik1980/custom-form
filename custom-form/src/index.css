@@ -1893,7 +1893,16 @@ textarea {
   margin-left: 8px;
   font-weight: 500;
 }
-
+.plus-sign {
+  font-size: 1.2rem;
+  color: var(--accent);
+  background-color: #f0f3f7;
+  border-radius: 0.25rem 0; /* Rounded on the left side */
+  padding: 0.25rem 0.5rem;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
 /* Close button */
 .add-field-dialog .close-btn {
   background: transparent;
