@@ -4,38 +4,39 @@ import { useI18n } from "../i18n/I18nContext.js";
 
 const Main = ({ items, addMethod, deleteMethod }) => {
   const { t } = useI18n();
-  
+
   const handleDelete = (id) => {
     if (typeof deleteMethod === "function") {
       deleteMethod(id);
     }
   };
-  
+
   return (
-    <div className="w-container mx-auto p-6 flex flex-col items-center justify-center">
-      <h1 className="text-3xl font-semibold text-gray-900 mb-6">{t('home.title')}</h1>
-      <section className="grid gap-2 items-center justify-center">
-        <AddField addField={addMethod} ></AddField>
-      </section>
-      <div className="grid grid-cols-2 gap-6 w-full max-w-4xl">
+    <div className="max-w-4xl mx-auto px-6 py-8">
+      <div className="flex items-center justify-between gap-4 mb-8">
+        <h1 className="text-2xl font-bold text-[var(--gb-800)] tracking-[-0.3px]">
+          {t("home.title")}
+        </h1>
+        <AddField addField={addMethod} />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {Array.isArray(items) && items.length > 0 ? (
           items.map((item) => (
             <div
               key={item._id}
-              className="bg-white rounded-lg shadow p-4 flex items-center gap-4"
+              className="group bg-white rounded-2xl border border-[var(--gb-100)] shadow-[0_2px_8px_rgba(51,74,82,0.05)] p-5 flex items-start gap-3 transition-all hover:shadow-lg"
             >
-              <div className="form-group flex-1">
-                <h3 >{item?.user?.name}</h3>
+              <div className="form-group flex-1 min-w-0">
                 <Field item={item} />
               </div>
               <button
                 type="button"
-                className="block p-0 border-0 !pb-0 cursor-pointer hover:text-red-600"
-                aria-label={t('home.deleteLabel', { label: item?.label || "field" })}
+                className="field-delete-btn shrink-0 mt-1 flex items-center justify-center w-7 h-7 rounded-lg opacity-0 group-hover:opacity-100 transition-all"
+                aria-label={t("home.deleteLabel", { label: item?.label || "field" })}
                 onClick={() => handleDelete(item._id)}
               >
                 <svg
-                  className="w-4 h-4"
                   viewBox="0 0 20 20"
                   fill="none"
                   stroke="currentColor"
@@ -43,8 +44,8 @@ const Main = ({ items, addMethod, deleteMethod }) => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   aria-hidden="true"
-                  width="20"
-                  height="20"
+                  width="16"
+                  height="16"
                 >
                   <line x1="5" y1="5" x2="15" y2="15" />
                   <line x1="15" y1="5" x2="5" y2="15" />
@@ -53,7 +54,13 @@ const Main = ({ items, addMethod, deleteMethod }) => {
             </div>
           ))
         ) : (
-          <p className="text-gray-500">{t('home.noItems')}</p>
+          <div
+            className="col-span-2 py-16 flex flex-col items-center justify-center text-center rounded-2xl border border-[var(--gb-100)] bg-[var(--gb-50)]"
+          >
+            <p className="text-base font-medium mb-1 text-[var(--gb-500)]">
+              {t("home.noItems")}
+            </p>
+          </div>
         )}
       </div>
     </div>

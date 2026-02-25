@@ -74,6 +74,7 @@ export default function Calendar({ title, selectedUser }) {
       addToast(t("calendar.eventDeleteError"), "error");
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedUser) {
